@@ -4,6 +4,7 @@ export { useFactions } from './use-factions';
 export { useLocalePath, useLocaleChangesPath } from './use-locale-path';
 export { useDarkMode } from './use-dark-mode';
 export { useDataFetch } from './use-data-fetch';
+export { useEntityPageTitle } from './use-entity-page-title';
 export { useAssetManifest } from './use-asset-manifest';
 export { useFilteredPageData } from './use-filtered-page-data';
 export {
