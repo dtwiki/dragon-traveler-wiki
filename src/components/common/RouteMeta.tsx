@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useLayoutEffect, useMemo } from 'react';
 import { useLocation } from 'react-router';
 import {
   BASE_URL,
@@ -13,27 +13,12 @@ import {
   SITE_NAME,
   type RouteMeta as RouteMetaType,
 } from '@/constants/route-meta';
-
-function upsertMetaTag(
-  attr: 'name' | 'property',
-  key: string,
-  content: string,
-): void {
-  const selector = `meta[${attr}="${key}"]`;
-  let meta = document.querySelector<HTMLMetaElement>(selector);
-
-  if (!meta) {
-    meta = document.createElement('meta');
-    meta.setAttribute(attr, key);
-    document.head.appendChild(meta);
-  }
-
-  meta.setAttribute('content', content);
-}
-
-function removeMetaTag(attr: 'name' | 'property', key: string): void {
-  document.querySelector(`meta[${attr}="${key}"]`)?.remove();
-}
+import {
+  formatPageTitle,
+  removeMetaTag,
+  upsertCanonicalLink,
+  upsertMetaTag,
+} from '@/utils/document-head';
 
 function getRouteMeta(pathname: string): RouteMetaType {
   const explicit = getRouteMetaEntry(pathname);
@@ -59,11 +44,8 @@ export default function RouteMeta() {
   const showDefaultImage =
     pathname === ROUTE_PATH.home || getRouteMetaEntry(pathname) === undefined;
 
-  useEffect(() => {
-    const pageTitle =
-      routeMeta.title === SITE_NAME
-        ? SITE_NAME
-        : `${routeMeta.title} | ${SITE_NAME}`;
+  useLayoutEffect(() => {
+    const pageTitle = formatPageTitle(routeMeta.title);
     const pageUrl = `${BASE_URL}${pathname}`;
     const existingPageUrl = document
       .querySelector<HTMLMetaElement>('meta[property="og:url"]')
@@ -77,6 +59,7 @@ export default function RouteMeta() {
       Boolean(existingImage && existingImage !== DEFAULT_IMAGE);
 
     document.title = pageTitle;
+    upsertCanonicalLink(pageUrl);
     upsertMetaTag('name', 'description', routeMeta.description);
 
     upsertMetaTag('property', 'og:title', pageTitle);

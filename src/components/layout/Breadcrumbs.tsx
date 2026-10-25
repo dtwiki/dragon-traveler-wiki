@@ -1,5 +1,6 @@
 import { Anchor, Breadcrumbs as MantineBreadcrumbs, Text } from '@mantine/core';
 import { Link } from 'react-router';
+import { useEntityPageTitle } from '@/hooks';
 
 export interface BreadcrumbItem {
   label: string;
@@ -11,6 +12,8 @@ interface BreadcrumbsProps {
 }
 
 export default function Breadcrumbs({ items }: BreadcrumbsProps) {
+  useEntityPageTitle(items.at(-1)?.label);
+
   return (
     <nav aria-label="Breadcrumb">
       <MantineBreadcrumbs mb="md" style={{ flexWrap: 'wrap' }}>

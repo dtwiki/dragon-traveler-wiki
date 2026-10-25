@@ -55,6 +55,19 @@ assert(
 );
 assert(findFiles(dataDir, '.json').length > 0, 'No production data was copied');
 
+const sitemapPath = path.join(distDir, 'sitemap.xml');
+assert(existsSync(sitemapPath), 'dist/sitemap.xml is missing');
+assert(
+  readFileSync(sitemapPath, 'utf8').includes('<loc>https://dtwiki.org/</loc>'),
+  'dist/sitemap.xml does not list the home page',
+);
+assert(
+  readFileSync(path.join(distDir, 'robots.txt'), 'utf8').includes(
+    'Sitemap: https://dtwiki.org/sitemap.xml',
+  ),
+  'dist/robots.txt does not reference the sitemap',
+);
+
 const htmlFiles = findFiles(distDir, '.html');
 assert(htmlFiles.length > 0, 'No HTML pages were generated');
 

@@ -25,6 +25,9 @@ const assetsBase = rawAssetsBase
     ).href
   : null;
 
+const SOCIAL_IMAGE_SIZE = { width: 1200, height: 630 };
+const NOINDEX_PATHS = [ROUTE_PATH.account, ROUTE_PATH.moderation];
+
 const DEFAULT_SOCIAL_IMAGE = {
   url: DEFAULT_IMAGE,
   alt: 'Dragon Traveler Wiki banner',
@@ -175,6 +178,103 @@ function removeMeta(html, attr, key) {
   return html.replace(pattern, '');
 }
 
+function upsertCanonical(html, href) {
+  const pattern = /\s*<link\s+rel=["']canonical["'][^>]*>/i;
+  if (!href) return html.replace(pattern, '');
+
+  const tag = `<link rel="canonical" href="${escapeHtml(href)}" />`;
+  if (pattern.test(html)) {
+    return html.replace(pattern, (match) => match.replace(/<link[^>]*>/, tag));
+  }
+  return html.replace(/<\/head>/i, `    ${tag}\n  </head>`);
+}
+
+export function buildFallbackBody(meta, links = [], separator = ' › ') {
+  const nav = links.length
+    ? `<nav>${links
+        .map(
+          ({ title, url }) =>
+            `<a href="${escapeHtml(url)}">${escapeHtml(title)}</a>`,
+        )
+        .join(separator)}</nav>`
+    : '';
+  return `<main><h1>${escapeHtml(meta.title)}</h1><p>${escapeHtml(meta.description)}</p>${nav}</main>`;
+}
+
+function buildJsonLdScript(data) {
+  const json = JSON.stringify({ '@context': 'https://schema.org', ...data });
+  return `<script type="application/ld+json">${json.replace(/</g, '\\u003c')}</script>`;
+}
+
+export function buildBreadcrumbJsonLd(items) {
+  return buildJsonLdScript({
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map(({ title, url }, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: title,
+      item: url,
+    })),
+  });
+}
+
+export function buildHomeHtml(
+  indexHtml,
+  siteName,
+  baseUrl,
+  description,
+  links,
+) {
+  const body = buildFallbackBody(
+    { title: siteName, description },
+    links,
+    ' · ',
+  );
+  const jsonLd = buildJsonLdScript({
+    '@type': 'WebSite',
+    name: siteName,
+    url: `${baseUrl}/`,
+  });
+  return indexHtml
+    .replace(/<div id="root"><\/div>/, `<div id="root">${body}</div>`)
+    .replace(/<\/head>/i, `    ${jsonLd}\n  </head>`);
+}
+
+export function buildSitemapXml(paths, baseUrl) {
+  const urls = paths
+    .map((routePath) => {
+      const loc = escapeHtml(
+        routePath === '/' ? `${baseUrl}/` : `${baseUrl}${routePath}`,
+      );
+      return `  <url><loc>${loc}</loc></url>`;
+    })
+    .join('\n');
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
+}
+
+export function buildRobotsTxt(disallowedPaths, baseUrl) {
+  return [
+    'User-agent: *',
+    ...disallowedPaths.map((routePath) => `Disallow: ${routePath}`),
+    '',
+    `Sitemap: ${baseUrl}/sitemap.xml`,
+    '',
+  ].join('\n');
+}
+
+export function getParentRoute(pattern, routes = ROUTE_META) {
+  const route = routes.find((entry) => entry.pattern === pattern);
+  if (route?.navigationParent) {
+    const parent = routes.find(({ id }) => id === route.navigationParent);
+    if (parent) return { title: parent.meta.title, path: parent.pattern };
+  }
+
+  const sectionPath = `/${pattern.split('/')[1] ?? ''}`;
+  if (sectionPath === pattern || sectionPath === '/') return null;
+  const section = routes.find((entry) => entry.pattern === sectionPath);
+  return section ? { title: section.meta.title, path: section.pattern } : null;
+}
+
 function writeHtmlForPath(routePath, html) {
   const normalized = routePath.replace(/^\//, '');
   const flatPath = path.join(distDir, `${normalized}.html`);
@@ -193,15 +293,33 @@ export function buildRouteHtml(
   siteName,
   baseUrl,
   image = DEFAULT_SOCIAL_IMAGE,
+  { canonicalPath = routePath, parent = null } = {},
 ) {
   const pageTitle =
     meta.title === siteName ? siteName : `${meta.title} | ${siteName}`;
-  const pageUrl = `${baseUrl}${routePath}`;
+  const pageUrl = `${baseUrl}${canonicalPath ?? routePath}`;
+  const breadcrumbs = [
+    { title: siteName, url: `${baseUrl}/` },
+    ...(parent
+      ? [{ title: parent.title, url: `${baseUrl}${parent.path}` }]
+      : []),
+  ];
 
   let html = indexHtml.replace(
     /<title>[\s\S]*?<\/title>/i,
     `<title>${escapeHtml(pageTitle)}</title>`,
   );
+  html = upsertCanonical(html, canonicalPath ? pageUrl : null);
+  html = html.replace(
+    /<div id="root"><\/div>/,
+    `<div id="root">${buildFallbackBody(meta, breadcrumbs)}</div>`,
+  );
+  if (canonicalPath) {
+    html = html.replace(
+      /<\/head>/i,
+      `    ${buildBreadcrumbJsonLd([...breadcrumbs, { title: meta.title, url: pageUrl }])}\n  </head>`,
+    );
+  }
   html = upsertMeta(html, 'name', 'description', meta.description);
   html = upsertMeta(html, 'property', 'og:title', pageTitle);
   html = upsertMeta(html, 'property', 'og:description', meta.description);
@@ -259,6 +377,18 @@ function makeSquareImage(relativePath, alt) {
   });
 }
 
+function makeSocialImageCandidate(relativeDir, alt) {
+  return [
+    `${relativeDir}/social.jpg`,
+    {
+      alt,
+      ...SOCIAL_IMAGE_SIZE,
+      type: 'image/jpeg',
+      cardType: 'summary_large_image',
+    },
+  ];
+}
+
 function makeCharacterImage(item) {
   const assetSlugs = [
     ...new Set([item.slug, item.legacy_slug].filter(Boolean)),
@@ -272,6 +402,12 @@ function makeCharacterImage(item) {
     cardType: 'summary',
   };
   return getFirstAvailableAssetImage([
+    ...assetSlugs.map((slug) =>
+      makeSocialImageCandidate(
+        `character/${slug}/skins/default`,
+        sceneOptions.alt,
+      ),
+    ),
     ...assetSlugs.map((slug) => [
       `character/${slug}/skins/default/scene.png`,
       sceneOptions,
@@ -286,6 +422,7 @@ function makeCharacterImage(item) {
 function makeWyrmImage(item) {
   const base = `wyrm/${item.slug}`;
   return getFirstAvailableAssetImage([
+    makeSocialImageCandidate(base, `${item.name} illustration`),
     [
       `${base}/illustration.png`,
       {
@@ -344,13 +481,25 @@ export function writeRoutePages() {
     ROUTE_META.map((route) => [route.pattern, route.meta]),
   );
   const writtenPaths = new Set();
-  const writePage = (routePath, meta, image = null) => {
+  const sitemapPaths = ['/'];
+  const writePage = (
+    routePath,
+    meta,
+    image = null,
+    { pattern = routePath, canonicalPath = routePath } = {},
+  ) => {
     if (!routePath || routePath === '/' || writtenPaths.has(routePath)) return;
     writeHtmlForPath(
       routePath,
-      buildRouteHtml(indexHtml, routePath, meta, SITE_NAME, BASE_URL, image),
+      buildRouteHtml(indexHtml, routePath, meta, SITE_NAME, BASE_URL, image, {
+        canonicalPath,
+        parent: getParentRoute(pattern),
+      }),
     );
     writtenPaths.add(routePath);
+    if (canonicalPath === routePath && !NOINDEX_PATHS.includes(routePath)) {
+      sitemapPaths.push(routePath);
+    }
   };
 
   for (const route of ROUTE_META) {
@@ -365,7 +514,12 @@ export function writeRoutePages() {
 
   for (const [aliasPath, targetPath] of LEGACY_ROUTE_ALIASES) {
     const targetMeta = routeMetaByPattern.get(targetPath);
-    if (targetMeta) writePage(aliasPath, targetMeta);
+    if (targetMeta) {
+      writePage(aliasPath, targetMeta, null, {
+        pattern: targetPath,
+        canonicalPath: targetPath,
+      });
+    }
   }
 
   const characterItems = readJsonArray('enUS/characters.json');
@@ -507,12 +661,14 @@ export function writeRoutePages() {
         description: config.getDescription(item, fallbackMeta.description),
       };
       const image = config.getImage?.(item) ?? null;
-      writePage(config.pattern.replace(/:[^/]+$/, slug), meta, image);
+      const routePath = config.pattern.replace(/:[^/]+$/, slug);
+      writePage(routePath, meta, image, { pattern: config.pattern });
       if (item.legacy_slug && item.legacy_slug !== slug) {
         writePage(
           config.pattern.replace(/:[^/]+$/, item.legacy_slug),
           meta,
           image,
+          { pattern: config.pattern, canonicalPath: routePath },
         );
       }
     }
@@ -525,12 +681,17 @@ export function writeRoutePages() {
       const scroll = getOracleScrollReference(item.oracle_scroll);
       if (!scroll || scrollsSeen.has(scroll.slug)) continue;
       scrollsSeen.add(scroll.slug);
-      writePage(`/oracle-scrolls/${scroll.slug}`, {
-        title: scroll.name,
-        description: truncateText(
-          `${scroll.name} Oracle Scroll. ${oracleMeta.description}`,
-        ),
-      });
+      writePage(
+        `/oracle-scrolls/${scroll.slug}`,
+        {
+          title: scroll.name,
+          description: truncateText(
+            `${scroll.name} Oracle Scroll. ${oracleMeta.description}`,
+          ),
+        },
+        null,
+        { pattern: ROUTE_PATH.oracleScrollDetail },
+      );
     }
   }
 
@@ -547,7 +708,38 @@ export function writeRoutePages() {
       SITE_NAME,
       BASE_URL,
       DEFAULT_SOCIAL_IMAGE,
+      { canonicalPath: null },
     ),
+    'utf-8',
+  );
+
+  const homeMeta = routeMetaByPattern.get(ROUTE_PATH.home);
+  const sectionLinks = ROUTE_META.filter(
+    ({ pattern }) =>
+      /^\/[^/:*]+$/.test(pattern) && !NOINDEX_PATHS.includes(pattern),
+  ).map(({ meta, pattern }) => ({
+    title: meta.title,
+    url: `${BASE_URL}${pattern}`,
+  }));
+  writeFileSync(
+    indexHtmlPath,
+    buildHomeHtml(
+      indexHtml,
+      SITE_NAME,
+      BASE_URL,
+      homeMeta.description,
+      sectionLinks,
+    ),
+    'utf-8',
+  );
+  writeFileSync(
+    path.join(distDir, 'sitemap.xml'),
+    buildSitemapXml(sitemapPaths, BASE_URL),
+    'utf-8',
+  );
+  writeFileSync(
+    path.join(distDir, 'robots.txt'),
+    buildRobotsTxt(NOINDEX_PATHS, BASE_URL),
     'utf-8',
   );
 }
