@@ -12,14 +12,14 @@
     "check": "npm run typecheck && npm run test"
   },
   "dependencies": {
-    "hono": "^4.13.13",
-    "zod": "^4.1.11"
+    "hono": "^4.13.14",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^5.20261011.1",
-    "@types/node": "^26.6.5",
+    "@cloudflare/workers-types": "^5.20261029.1",
+    "@types/node": "^26.6.6",
     "typescript": "~7.0.2",
-    "vitest": "^5.0.3",
-    "wrangler": "4.149.0"
+    "vitest": "^5.0.5",
+    "wrangler": "4.155.0"
   }
 }
