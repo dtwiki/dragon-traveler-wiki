@@ -7,6 +7,7 @@ import ListPageShell from '@/components/layout/ListPageShell';
 import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import ExpandableText from '@/components/ui/ExpandableText';
 import QualityIcon from '@/components/ui/QualityIcon';
+import GlobalBadge from '@/components/ui/GlobalBadge';
 import SafeImage from '@/components/ui/SafeImage';
 import SortableTh from '@/components/ui/SortableTh';
 import RichText from '@/components/common/RichText';
@@ -115,7 +116,14 @@ export default function NoblePhantasmCatalogTab({
                   to={`/noble-phantasms/${item.slug}`}
                   title={item.name}
                   imageSrc={getNoblePhantasmIcon(item.slug)}
-                  titleAccessory={<QualityIcon quality={item.quality} />}
+                  titleAccessory={
+                    <Group gap={6} wrap="nowrap">
+                      <QualityIcon quality={item.quality} />
+                      {item.is_global === false && (
+                        <GlobalBadge isGlobal={false} size="xs" />
+                      )}
+                    </Group>
+                  }
                   metadata={
                     <Group gap="xs" wrap="wrap">
                       {item.character_slug &&
@@ -216,7 +224,14 @@ export default function NoblePhantasmCatalogTab({
                           </Text>
                         )}
                       </Table.Td>
-                      <EntityTableLinkCell to={`/noble-phantasms/${item.slug}`}>
+                      <EntityTableLinkCell
+                        to={`/noble-phantasms/${item.slug}`}
+                        accessory={
+                          item.is_global === false && (
+                            <GlobalBadge isGlobal={false} size="xs" />
+                          )
+                        }
+                      >
                         {item.name}
                       </EntityTableLinkCell>
                       <Table.Td>

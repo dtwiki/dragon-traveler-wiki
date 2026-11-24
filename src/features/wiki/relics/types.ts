@@ -19,5 +19,6 @@ export interface Relic {
   lore: string;
   type: RelicType;
   quality: Quality;
+  is_global?: boolean;
   last_updated?: number;
 }

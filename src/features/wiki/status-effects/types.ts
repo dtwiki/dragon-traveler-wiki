@@ -17,6 +17,7 @@ export interface StatusEffect {
   type: StatusEffectType;
   effect: string;
   remark: string;
+  is_global?: boolean;
   last_updated: number;
   icon?: boolean;
 }

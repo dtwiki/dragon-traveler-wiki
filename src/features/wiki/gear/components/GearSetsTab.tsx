@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
 import { Badge, Group, SimpleGrid, Stack, Text } from '@mantine/core';
 import { InteractiveSurface } from '@/components/ui/Surface';
+import GlobalBadge from '@/components/ui/GlobalBadge';
 import ListPageShell from '@/components/layout/ListPageShell';
 import { CardGridLoading } from '@/components/layout/PageLoadingSkeleton';
 import SearchableGridPanel from '@/components/layout/SearchableGridPanel';
@@ -88,9 +89,14 @@ export default function GearSetsTab({
               >
                 <Stack gap="xs">
                   <Group justify="space-between" align="center">
-                    <Text fw={700} className="dt-link-text" lineClamp={1}>
-                      {set.name}
-                    </Text>
+                    <Group gap="xs" wrap="nowrap" style={{ minWidth: 0 }}>
+                      <Text fw={700} className="dt-link-text" lineClamp={1}>
+                        {set.name}
+                      </Text>
+                      {set.is_global === false && (
+                        <GlobalBadge isGlobal={false} size="xs" />
+                      )}
+                    </Group>
                     {bonusQuantity > 0 && (
                       <Badge variant="light" size="sm" color={accent.tertiary}>
                         {bonusQuantity}-piece

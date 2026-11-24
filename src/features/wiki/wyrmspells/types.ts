@@ -15,6 +15,7 @@ export interface Wyrmspell {
   type: WyrmspellType;
   qualities: WyrmspellQuality[];
   exclusive_faction: FactionSlug | null;
+  is_global?: boolean;
   last_updated: number;
 }
 

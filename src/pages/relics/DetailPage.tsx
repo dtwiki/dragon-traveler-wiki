@@ -9,6 +9,7 @@ import SectionJumpNav from '@/components/layout/SectionJumpNav';
 import PageFetchError from '@/components/ui/PageFetchError';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
+import GlobalBadge from '@/components/ui/GlobalBadge';
 import QualityIcon from '@/components/ui/QualityIcon';
 import { QUALITY_COLOR } from '@/constants/quality';
 import { RELIC_TYPE_ORDER } from '@/constants/relic-colors';
@@ -185,6 +186,9 @@ export default function OracleScrollPage() {
           <Group gap="sm" align="center" wrap="wrap">
             <DetailPageTitle>{currentScroll.name}</DetailPageTitle>
             <QualityIcon quality={scrollRelics[0].quality} size={32} />
+            {scrollRelics.every((relic) => relic.is_global === false) && (
+              <GlobalBadge isGlobal={false} size="lg" />
+            )}
             <Badge variant="light" color={accent.secondary} size="lg">
               {scrollRelics.length} relic
               {scrollRelics.length !== 1 ? 's' : ''}

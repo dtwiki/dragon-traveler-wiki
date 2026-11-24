@@ -17,6 +17,7 @@ import ListPageShell from '@/components/layout/ListPageShell';
 import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import SortableTh from '@/components/ui/SortableTh';
 import QualityIcon from '@/components/ui/QualityIcon';
+import GlobalBadge from '@/components/ui/GlobalBadge';
 import { InteractiveSurface, StaticSurface } from '@/components/ui/Surface';
 import HowlkinStats from '@/features/wiki/howlkins/components/HowlkinStats';
 import type { HowlkinFilters } from '@/features/wiki/howlkins/filters';
@@ -193,6 +194,11 @@ export default function HowlkinsTab({
                         <Box style={{ flexShrink: 0 }}>
                           <QualityIcon quality={howlkin.quality} />
                         </Box>
+                        {howlkin.is_global === false && (
+                          <Box style={{ flexShrink: 0 }}>
+                            <GlobalBadge isGlobal={false} size="xs" />
+                          </Box>
+                        )}
                       </Group>
                       <Stack gap={2}>
                         {(howlkin.passive_effects ?? []).map((e, i) => (
@@ -269,22 +275,27 @@ export default function HowlkinsTab({
                         )}
                       </Table.Td>
                       <Table.Td>
-                        {allianceSlug ? (
-                          <Text
-                            component={Link}
-                            to={`/howlkins/${allianceSlug}`}
-                            fw={600}
-                            size="sm"
-                            className="dt-link-text"
-                            style={{ textDecoration: 'none' }}
-                          >
-                            {howlkin.name}
-                          </Text>
-                        ) : (
-                          <Text fw={600} size="sm">
-                            {howlkin.name}
-                          </Text>
-                        )}
+                        <Group gap="xs" wrap="nowrap">
+                          {allianceSlug ? (
+                            <Text
+                              component={Link}
+                              to={`/howlkins/${allianceSlug}`}
+                              fw={600}
+                              size="sm"
+                              className="dt-link-text"
+                              style={{ textDecoration: 'none' }}
+                            >
+                              {howlkin.name}
+                            </Text>
+                          ) : (
+                            <Text fw={600} size="sm">
+                              {howlkin.name}
+                            </Text>
+                          )}
+                          {howlkin.is_global === false && (
+                            <GlobalBadge isGlobal={false} size="xs" />
+                          )}
+                        </Group>
                       </Table.Td>
                       <Table.Td>
                         <QualityIcon quality={howlkin.quality} />

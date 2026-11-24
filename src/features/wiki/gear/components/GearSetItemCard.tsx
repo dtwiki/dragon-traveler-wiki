@@ -1,4 +1,5 @@
 import ExpandableText from '@/components/ui/ExpandableText';
+import GlobalBadge from '@/components/ui/GlobalBadge';
 import SafeImage from '@/components/ui/SafeImage';
 import { getGearIcon } from '@/assets';
 import RichText from '@/components/common/RichText';
@@ -50,6 +51,9 @@ export default function GearSetItemCard({
                 {item.name}
               </Text>
               <QualityIcon quality={item.quality} size={IMAGE_SIZE.ICON_LG} />
+              {item.is_global === false && (
+                <GlobalBadge isGlobal={false} size="sm" />
+              )}
             </Group>
             <Group gap="xs" wrap="wrap">
               <GearTypeTag type={item.type} />

@@ -29,6 +29,7 @@ import {
 } from '@/constants/ui';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
+import GlobalBadge from '@/components/ui/GlobalBadge';
 import WyrmspellTypeTag from '@/features/wiki/wyrmspells/components/WyrmspellTypeTag';
 import {
   compareWyrmspells,
@@ -279,6 +280,11 @@ export default function Wyrmspells() {
                                 <QualityIcon quality={maxQuality.quality} />
                               </Box>
                             )}
+                            {spell.is_global === false && (
+                              <Box style={{ flexShrink: 0 }}>
+                                <GlobalBadge isGlobal={false} size="xs" />
+                              </Box>
+                            )}
                           </Group>
                           <Group gap="sm" wrap="wrap">
                             <WyrmspellTypeTag type={spell.type} />
@@ -363,7 +369,14 @@ export default function Wyrmspells() {
                               />
                             )}
                           </Table.Td>
-                          <EntityTableLinkCell to={`/wyrmspells/${spell.slug}`}>
+                          <EntityTableLinkCell
+                            to={`/wyrmspells/${spell.slug}`}
+                            accessory={
+                              spell.is_global === false && (
+                                <GlobalBadge isGlobal={false} size="xs" />
+                              )
+                            }
+                          >
                             {spell.name}
                           </EntityTableLinkCell>
                           <Table.Td>

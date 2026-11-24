@@ -14,6 +14,7 @@ import EntityFilter from '@/components/common/EntityFilter';
 import EntitySummaryCard from '@/components/common/EntitySummaryCard';
 import RichText from '@/components/common/RichText';
 import SafeImage from '@/components/ui/SafeImage';
+import GlobalBadge from '@/components/ui/GlobalBadge';
 import SortableTh from '@/components/ui/SortableTh';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
@@ -161,6 +162,11 @@ export default function StatusEffects() {
                       imageSrc={iconSrc}
                       imageSize={IMAGE_SIZE.CARD_ICON_SM}
                       reserveImageSpace
+                      titleAccessory={
+                        effect.is_global === false && (
+                          <GlobalBadge isGlobal={false} size="xs" />
+                        )
+                      }
                       metadata={
                         <Badge
                           variant="light"
@@ -234,9 +240,14 @@ export default function StatusEffects() {
                             />
                           </Table.Td>
                           <Table.Td>
-                            <Text fw={600} size="sm">
-                              {effect.name}
-                            </Text>
+                            <Group gap="xs" wrap="nowrap">
+                              <Text fw={600} size="sm">
+                                {effect.name}
+                              </Text>
+                              {effect.is_global === false && (
+                                <GlobalBadge isGlobal={false} size="xs" />
+                              )}
+                            </Group>
                           </Table.Td>
                           <Table.Td>
                             <Badge

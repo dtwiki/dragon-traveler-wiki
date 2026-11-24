@@ -10,6 +10,7 @@ import PageFetchError from '@/components/ui/PageFetchError';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import FactionTag from '@/components/ui/FactionTag';
+import GlobalBadge from '@/components/ui/GlobalBadge';
 import QualityIcon from '@/components/ui/QualityIcon';
 import WyrmspellTypeTag from '@/features/wiki/wyrmspells/components/WyrmspellTypeTag';
 import { getStableTagColor } from '@/constants/tag-colors';
@@ -139,6 +140,9 @@ export default function WyrmspellPage() {
               <DetailPageTitle>{wyrmspell.name}</DetailPageTitle>
               {maxQuality && (
                 <QualityIcon quality={maxQuality.quality} size={32} />
+              )}
+              {wyrmspell.is_global === false && (
+                <GlobalBadge isGlobal={false} size="lg" />
               )}
             </Group>
             <LastUpdated timestamp={wyrmspell.last_updated} />

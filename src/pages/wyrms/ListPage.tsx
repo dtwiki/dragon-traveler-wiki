@@ -20,6 +20,7 @@ import DataCorrectionButton from '@/components/tools/DataCorrectionButton';
 import SortableTh from '@/components/ui/SortableTh';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
+import GlobalBadge from '@/components/ui/GlobalBadge';
 import { FACTION_SLUGS } from '@/constants/faction-colors';
 import { QUALITY_ORDER } from '@/constants/quality';
 import { getMinWidthStyle } from '@/constants/styles';
@@ -197,7 +198,14 @@ export default function WyrmsListPage() {
                       to={`/wyrms/${wyrm.slug}`}
                       title={wyrm.name}
                       imageSrc={iconSrc}
-                      titleAccessory={<QualityIcon quality={wyrm.quality} />}
+                      titleAccessory={
+                        <Group gap={6} wrap="nowrap">
+                          <QualityIcon quality={wyrm.quality} />
+                          {wyrm.is_global === false && (
+                            <GlobalBadge isGlobal={false} size="xs" />
+                          )}
+                        </Group>
+                      }
                       metadata={
                         <Group gap="xs" wrap="wrap">
                           <Badge variant="light" size="sm" color={phaseColor}>
@@ -279,7 +287,14 @@ export default function WyrmsListPage() {
                               />
                             )}
                           </Table.Td>
-                          <EntityTableLinkCell to={`/wyrms/${wyrm.slug}`}>
+                          <EntityTableLinkCell
+                            to={`/wyrms/${wyrm.slug}`}
+                            accessory={
+                              wyrm.is_global === false && (
+                                <GlobalBadge isGlobal={false} size="xs" />
+                              )
+                            }
+                          >
                             {wyrm.name}
                           </EntityTableLinkCell>
                           <Table.Td>

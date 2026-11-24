@@ -8,6 +8,7 @@ export interface Howlkin {
   quality: Quality;
   basic_stats: HowlkinBasicStats;
   passive_effects: string[];
+  is_global?: boolean;
   last_updated?: number | null;
 }
 
@@ -21,5 +22,6 @@ export interface GoldenAlliance {
   name: string;
   howlkins: string[];
   effects: GoldenAllianceEffect[];
+  is_global?: boolean;
   last_updated?: number;
 }
