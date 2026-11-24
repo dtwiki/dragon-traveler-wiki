@@ -122,6 +122,7 @@ export interface Character {
   is_global: boolean;
   subclasses: string[];
   release_date?: string | null;
+  tw_release_date?: string | null;
   attack_range?: CharacterAttackRange | null;
   attack_type?: CharacterAttackType | null;
   combat_tags?: string[];

@@ -31,5 +31,6 @@ export interface Wyrm {
   evolves_to: string | null;
   skills: WyrmSkill[];
   star_upgrades: WyrmStarUpgrade[];
+  is_global?: boolean;
   last_updated: number;
 }

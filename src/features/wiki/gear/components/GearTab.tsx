@@ -13,6 +13,7 @@ import SortableTh from '@/components/ui/SortableTh';
 import { IMAGE_SIZE, CARD_GRID_COLS } from '@/constants/ui';
 import { getMinWidthStyle } from '@/constants/styles';
 import QualityIcon from '@/components/ui/QualityIcon';
+import GlobalBadge from '@/components/ui/GlobalBadge';
 import GearTypeTag from '@/features/wiki/gear/components/GearTypeTag';
 import type { Gear, GearSet } from '@/features/wiki/gear/types';
 import type { GearFilters } from '@/features/wiki/gear/filters';
@@ -151,7 +152,12 @@ export default function GearTab({
                   title={item.name}
                   imageSrc={iconSrc}
                   titleAccessory={
-                    item.quality && <QualityIcon quality={item.quality} />
+                    <Group gap={6} wrap="nowrap">
+                      {item.quality && <QualityIcon quality={item.quality} />}
+                      {item.is_global === false && (
+                        <GlobalBadge isGlobal={false} size="xs" />
+                      )}
+                    </Group>
                   }
                   metadata={
                     <Group gap="xs" wrap="wrap">
@@ -244,7 +250,14 @@ export default function GearTab({
                           />
                         )}
                       </Table.Td>
-                      <EntityTableLinkCell to={`/gear-sets/${item.set}`}>
+                      <EntityTableLinkCell
+                        to={`/gear-sets/${item.set}`}
+                        accessory={
+                          item.is_global === false && (
+                            <GlobalBadge isGlobal={false} size="xs" />
+                          )
+                        }
+                      >
                         {item.name}
                       </EntityTableLinkCell>
                       <Table.Td>

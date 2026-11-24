@@ -27,6 +27,7 @@ import {
   CARD_GRID_COLS,
 } from '@/constants/ui';
 import QualityIcon from '@/components/ui/QualityIcon';
+import GlobalBadge from '@/components/ui/GlobalBadge';
 import {
   useArtifacts,
   useStatusEffects,
@@ -175,7 +176,12 @@ export default function Artifacts() {
                       title={artifact.name}
                       imageSrc={iconSrc}
                       titleAccessory={
-                        <QualityIcon quality={artifact.quality} />
+                        <Group gap={6} wrap="nowrap">
+                          <QualityIcon quality={artifact.quality} />
+                          {artifact.is_global === false && (
+                            <GlobalBadge isGlobal={false} size="xs" />
+                          )}
+                        </Group>
                       }
                       metadata={
                         <Group gap="xs">
@@ -271,6 +277,11 @@ export default function Artifacts() {
                           <EntityTableLinkCell
                             to={`/artifacts/${artifact.slug}`}
                             fontWeight={500}
+                            accessory={
+                              artifact.is_global === false && (
+                                <GlobalBadge isGlobal={false} size="xs" />
+                              )
+                            }
                           >
                             {artifact.name}
                           </EntityTableLinkCell>

@@ -12,6 +12,7 @@ export interface GearSet {
   slug: string;
   name: string;
   set_bonus?: GearSetBonus;
+  is_global?: boolean;
   last_updated?: number;
 }
 
@@ -24,5 +25,6 @@ export interface Gear {
   lore: string;
   stats: Record<string, string | number>;
   set_bonus?: GearSetBonus;
+  is_global?: boolean;
   last_updated?: number;
 }

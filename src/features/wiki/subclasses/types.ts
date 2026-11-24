@@ -7,5 +7,6 @@ export interface Subclass {
   tier: number;
   bonuses: string[];
   effect: string;
+  is_global?: boolean;
   last_updated: number;
 }

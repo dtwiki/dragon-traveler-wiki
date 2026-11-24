@@ -18,6 +18,7 @@ import PageFetchError from '@/components/ui/PageFetchError';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import FactionTag from '@/components/ui/FactionTag';
+import GlobalBadge from '@/components/ui/GlobalBadge';
 import QualityIcon from '@/components/ui/QualityIcon';
 import { QUALITY_COLOR } from '@/constants/quality';
 import { getLoreGlassStyles } from '@/constants/glass';
@@ -168,6 +169,9 @@ export default function WyrmPage() {
             <Group gap="sm" align="center">
               <DetailPageTitle>{wyrm.name}</DetailPageTitle>
               <QualityIcon quality={wyrm.quality} size={32} />
+              {wyrm.is_global === false && (
+                <GlobalBadge isGlobal={false} size="lg" />
+              )}
             </Group>
             <LastUpdated timestamp={wyrm.last_updated} />
             <Group gap="sm" mt={4}>

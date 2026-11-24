@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
 import { Badge, Group, SimpleGrid, Stack, Table, Text } from '@mantine/core';
 import { InteractiveSurface } from '@/components/ui/Surface';
+import GlobalBadge from '@/components/ui/GlobalBadge';
 import ListPageShell from '@/components/layout/ListPageShell';
 import { CardGridLoading } from '@/components/layout/PageLoadingSkeleton';
 import SearchableGridPanel from '@/components/layout/SearchableGridPanel';
@@ -95,9 +96,14 @@ export default function GoldenAlliancesTab({
               style={LINK_BLOCK_RESET_STYLE}
             >
               <Stack gap="sm">
-                <Text fw={700} size="lg" className="dt-link-text">
-                  {alliance.name}
-                </Text>
+                <Group gap="xs" wrap="nowrap">
+                  <Text fw={700} size="lg" className="dt-link-text">
+                    {alliance.name}
+                  </Text>
+                  {alliance.is_global === false && (
+                    <GlobalBadge isGlobal={false} size="sm" />
+                  )}
+                </Group>
 
                 <div>
                   <Text size="xs" c="dimmed" fw={600} mb={4}>

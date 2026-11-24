@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { Badge, Group, SimpleGrid, Stack, Text } from '@mantine/core';
 import { useInViewport, useMergedRef, useReducedMotion } from '@mantine/hooks';
 import { InteractiveSurface } from '@/components/ui/Surface';
+import GlobalBadge from '@/components/ui/GlobalBadge';
 import SafeImage from '@/components/ui/SafeImage';
 import SafeVideo from '@/components/ui/SafeVideo';
 import { getOracleScrollVideo, getRelicIcon } from '@/assets';
@@ -178,9 +179,14 @@ export default function OracleScrollsTab({
                               align="flex-start"
                               style={{ flex: 1, minWidth: 0 }}
                             >
-                              <Text size="sm" fw={500}>
-                                {relic.name}
-                              </Text>
+                              <Group gap="xs" wrap="nowrap">
+                                <Text size="sm" fw={500}>
+                                  {relic.name}
+                                </Text>
+                                {relic.is_global === false && (
+                                  <GlobalBadge isGlobal={false} size="xs" />
+                                )}
+                              </Group>
                               <RelicTypeTag type={relic.type} />
                             </Stack>
                           </Group>

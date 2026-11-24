@@ -1,4 +1,5 @@
 ﻿import SafeImage from '@/components/ui/SafeImage';
+import GlobalBadge from '@/components/ui/GlobalBadge';
 import {
   Badge,
   Container,
@@ -177,9 +178,14 @@ export default function Resources() {
                       title={resource.name}
                       imageSrc={iconSrc}
                       titleAccessory={
-                        resource.quality && (
-                          <QualityIcon quality={resource.quality} />
-                        )
+                        <Group gap={6} wrap="nowrap">
+                          {resource.quality && (
+                            <QualityIcon quality={resource.quality} />
+                          )}
+                          {resource.is_global === false && (
+                            <GlobalBadge isGlobal={false} size="xs" />
+                          )}
+                        </Group>
                       }
                       metadata={
                         <Badge
@@ -256,9 +262,14 @@ export default function Resources() {
                             )}
                           </Table.Td>
                           <Table.Td>
-                            <Text fw={600} size="sm">
-                              {resource.name}
-                            </Text>
+                            <Group gap="xs" wrap="nowrap">
+                              <Text fw={600} size="sm">
+                                {resource.name}
+                              </Text>
+                              {resource.is_global === false && (
+                                <GlobalBadge isGlobal={false} size="xs" />
+                              )}
+                            </Group>
                           </Table.Td>
                           <Table.Td>
                             {resource.quality && (

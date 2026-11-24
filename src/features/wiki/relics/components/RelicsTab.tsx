@@ -24,6 +24,7 @@ import ListPageShell from '@/components/layout/ListPageShell';
 import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import SortableTh from '@/components/ui/SortableTh';
 import QualityIcon from '@/components/ui/QualityIcon';
+import GlobalBadge from '@/components/ui/GlobalBadge';
 import RelicTypeTag from '@/features/wiki/relics/components/RelicTypeTag';
 import type { RelicFilters } from '@/features/wiki/relics/filters';
 import type { Relic } from '@/features/wiki/relics/types';
@@ -181,7 +182,12 @@ export default function RelicsTab({
                   title={item.name}
                   imageSrc={iconSrc}
                   titleAccessory={
-                    item.quality && <QualityIcon quality={item.quality} />
+                    <Group gap={6} wrap="nowrap">
+                      {item.quality && <QualityIcon quality={item.quality} />}
+                      {item.is_global === false && (
+                        <GlobalBadge isGlobal={false} size="xs" />
+                      )}
+                    </Group>
                   }
                   metadata={
                     <Group gap="xs" wrap="wrap">
@@ -273,14 +279,24 @@ export default function RelicsTab({
                       {oracleScroll ? (
                         <EntityTableLinkCell
                           to={`/oracle-scrolls/${oracleScroll.slug}`}
+                          accessory={
+                            item.is_global === false && (
+                              <GlobalBadge isGlobal={false} size="xs" />
+                            )
+                          }
                         >
                           {item.name}
                         </EntityTableLinkCell>
                       ) : (
                         <Table.Td>
-                          <Text fw={600} size="sm">
-                            {item.name}
-                          </Text>
+                          <Group gap="xs" wrap="nowrap">
+                            <Text fw={600} size="sm">
+                              {item.name}
+                            </Text>
+                            {item.is_global === false && (
+                              <GlobalBadge isGlobal={false} size="xs" />
+                            )}
+                          </Group>
                         </Table.Td>
                       )}
                       <Table.Td>

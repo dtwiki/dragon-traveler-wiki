@@ -15,6 +15,7 @@ import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntitySummaryCard from '@/components/common/EntitySummaryCard';
 import RichText from '@/components/common/RichText';
 import ClassTag from '@/components/ui/ClassTag';
+import GlobalBadge from '@/components/ui/GlobalBadge';
 import SafeImage from '@/components/ui/SafeImage';
 import SortableTh from '@/components/ui/SortableTh';
 import TierBadge from '@/components/ui/TierBadge';
@@ -128,6 +129,11 @@ export default function SubclassCatalogTab({
                   key={item.slug}
                   title={item.name}
                   imageSrc={icon}
+                  titleAccessory={
+                    item.is_global === false && (
+                      <GlobalBadge isGlobal={false} size="xs" />
+                    )
+                  }
                   metadata={
                     <Group gap="xs" wrap="wrap">
                       <ClassTag characterClass={item.class} size="xs" />
@@ -218,9 +224,14 @@ export default function SubclassCatalogTab({
                         )}
                       </Table.Td>
                       <Table.Td>
-                        <Text fw={600} size="sm">
-                          {item.name}
-                        </Text>
+                        <Group gap="xs" wrap="nowrap">
+                          <Text fw={600} size="sm">
+                            {item.name}
+                          </Text>
+                          {item.is_global === false && (
+                            <GlobalBadge isGlobal={false} size="xs" />
+                          )}
+                        </Group>
                       </Table.Td>
                       <Table.Td>
                         <ClassTag characterClass={item.class} size="sm" />

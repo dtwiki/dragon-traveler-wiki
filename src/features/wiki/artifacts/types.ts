@@ -22,5 +22,6 @@ export interface Artifact {
   columns: number;
   rows: number;
   treasures: ArtifactTreasure[];
+  is_global?: boolean;
   last_updated: number;
 }

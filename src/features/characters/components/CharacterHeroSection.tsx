@@ -247,6 +247,12 @@ export default function CharacterPageHeroSection({
                         Released: {formatReleaseDate(character.release_date)}
                       </Text>
                     )}
+                    {character.tw_release_date && (
+                      <Text size="sm" c="dimmed">
+                        TW release:{' '}
+                        {formatReleaseDate(character.tw_release_date)}
+                      </Text>
+                    )}
                   </Group>
                 </Group>
 

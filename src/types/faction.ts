@@ -47,5 +47,6 @@ export interface Faction {
   wyrms: string[];
   description: string;
   recommended_artifacts: string[];
+  is_global?: boolean;
   last_updated: number;
 }
