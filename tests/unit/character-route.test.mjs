@@ -153,3 +153,41 @@ test('resolveCharacterRoute falls back to a legacy name-derived slug for old boo
   assert.equal(match.character, character);
   assert.equal(match.baseSlug, 'athena');
 });
+
+test('Chinese names never match other characters through an empty slug', () => {
+  const anubis = makeCharacter({
+    slug: 'anubis_ssr_plus',
+    name: '阿努比斯',
+    quality: 'SSR+',
+  });
+  const marie = makeCharacter({
+    slug: 'ma_li_luo_si_ssr_plus',
+    name: '瑪莉·蘿絲',
+    quality: 'SSR+',
+  });
+  const characters = [anubis, marie];
+  const byIdentity = buildCharacterByIdentityMap(characters);
+  const preferredByName = buildPreferredCharacterByNameMap(characters);
+
+  assert.equal(
+    resolveCharacterByNameAndQuality(
+      '瑪莉·蘿絲',
+      'SSR+',
+      preferredByName,
+      byIdentity,
+    ),
+    marie,
+  );
+  assert.equal(
+    resolveCharacterByNameAndQuality(
+      '不存在',
+      'SSR+',
+      preferredByName,
+      byIdentity,
+    ),
+    null,
+  );
+  const route = resolveCharacterRoute(characters, '不存在');
+  assert.equal(route.character, null);
+  assert.deepEqual(route.variants, []);
+});

@@ -65,7 +65,8 @@ function getCharacterByLegacyNameAndQuality(
     if (normalizeCharacterNameKey(character.name) === normalizedName) {
       return character;
     }
-    if (toEntitySlug(character.name) === normalizedSlug) {
+    // Non-Latin names (e.g. zh locales) slug to '', which would match every such name.
+    if (normalizedSlug && toEntitySlug(character.name) === normalizedSlug) {
       return character;
     }
   }
@@ -263,10 +264,12 @@ export function resolveCharacterRoute(
 
   // Legacy fallback: try name-derived slug for old bookmarked URLs
   const legacySlug = toEntitySlug(incomingSlug);
-  const legacyVariants = characters.filter(
-    (entry) =>
-      entry.slug === legacySlug || toEntitySlug(entry.name) === legacySlug,
-  );
+  const legacyVariants = legacySlug
+    ? characters.filter(
+        (entry) =>
+          entry.slug === legacySlug || toEntitySlug(entry.name) === legacySlug,
+      )
+    : [];
 
   if (legacyVariants.length === 1) {
     return {
