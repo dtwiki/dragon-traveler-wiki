@@ -46,18 +46,14 @@ jobs:
           fi
           echo "commit=$BUILD_COMMIT" >> "$GITHUB_OUTPUT"
 
-  deploy:
+  build:
     if: needs.prepare.outputs.commit != ''
     needs: prepare
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
       contents: read
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      pages: read
     steps:
       - name: Check out source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -124,6 +120,19 @@ jobs:
         with:
           path: dist
 
+  # Deploying from a separate job gives the uploaded artifact time to appear in
+  # the run's artifact list, which deploy-pages reads.
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy Pages
         id: deployment
         uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
