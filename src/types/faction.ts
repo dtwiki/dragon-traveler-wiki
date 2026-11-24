@@ -48,5 +48,6 @@ export interface Faction {
   description: string;
   recommended_artifacts: string[];
   is_global?: boolean;
+  machine_translated?: boolean;
   last_updated: number;
 }

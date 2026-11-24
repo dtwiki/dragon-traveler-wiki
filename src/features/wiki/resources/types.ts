@@ -16,5 +16,6 @@ export interface Resource {
   category: ResourceCategory;
   quality: Quality;
   is_global?: boolean;
+  machine_translated?: boolean;
   last_updated: number;
 }

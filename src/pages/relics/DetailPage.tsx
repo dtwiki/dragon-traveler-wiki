@@ -10,6 +10,7 @@ import PageFetchError from '@/components/ui/PageFetchError';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import GlobalBadge from '@/components/ui/GlobalBadge';
+import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import QualityIcon from '@/components/ui/QualityIcon';
 import { QUALITY_COLOR } from '@/constants/quality';
 import { RELIC_TYPE_ORDER } from '@/constants/relic-colors';
@@ -188,6 +189,9 @@ export default function OracleScrollPage() {
             <QualityIcon quality={scrollRelics[0].quality} size={32} />
             {scrollRelics.every((relic) => relic.is_global === false) && (
               <GlobalBadge isGlobal={false} size="lg" />
+            )}
+            {scrollRelics.some((relic) => relic.machine_translated) && (
+              <MachineTranslatedBadge size="lg" />
             )}
             <Badge variant="light" color={accent.secondary} size="lg">
               {scrollRelics.length} relic

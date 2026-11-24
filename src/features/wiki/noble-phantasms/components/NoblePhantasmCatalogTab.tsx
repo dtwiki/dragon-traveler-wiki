@@ -8,6 +8,7 @@ import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import ExpandableText from '@/components/ui/ExpandableText';
 import QualityIcon from '@/components/ui/QualityIcon';
 import GlobalBadge from '@/components/ui/GlobalBadge';
+import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import SafeImage from '@/components/ui/SafeImage';
 import SortableTh from '@/components/ui/SortableTh';
 import RichText from '@/components/common/RichText';
@@ -122,6 +123,9 @@ export default function NoblePhantasmCatalogTab({
                       {item.is_global === false && (
                         <GlobalBadge isGlobal={false} size="xs" />
                       )}
+                      {item.machine_translated && (
+                        <MachineTranslatedBadge size="xs" />
+                      )}
                     </Group>
                   }
                   metadata={
@@ -228,7 +232,12 @@ export default function NoblePhantasmCatalogTab({
                         to={`/noble-phantasms/${item.slug}`}
                         accessory={
                           item.is_global === false && (
-                            <GlobalBadge isGlobal={false} size="xs" />
+                            <>
+                              <GlobalBadge isGlobal={false} size="xs" />
+                              {item.machine_translated && (
+                                <MachineTranslatedBadge size="xs" />
+                              )}
+                            </>
                           )
                         }
                       >

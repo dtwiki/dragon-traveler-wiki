@@ -120,6 +120,7 @@ export interface Character {
   character_class: CharacterClass;
   factions: FactionSlug[];
   is_global: boolean;
+  machine_translated?: boolean;
   subclasses: string[];
   release_date?: string | null;
   tw_release_date?: string | null;

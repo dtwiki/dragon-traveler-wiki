@@ -21,6 +21,7 @@ import SortableTh from '@/components/ui/SortableTh';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
 import GlobalBadge from '@/components/ui/GlobalBadge';
+import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import { FACTION_SLUGS } from '@/constants/faction-colors';
 import { QUALITY_ORDER } from '@/constants/quality';
 import { getMinWidthStyle } from '@/constants/styles';
@@ -204,6 +205,9 @@ export default function WyrmsListPage() {
                           {wyrm.is_global === false && (
                             <GlobalBadge isGlobal={false} size="xs" />
                           )}
+                          {wyrm.machine_translated && (
+                            <MachineTranslatedBadge size="xs" />
+                          )}
                         </Group>
                       }
                       metadata={
@@ -291,7 +295,12 @@ export default function WyrmsListPage() {
                             to={`/wyrms/${wyrm.slug}`}
                             accessory={
                               wyrm.is_global === false && (
-                                <GlobalBadge isGlobal={false} size="xs" />
+                                <>
+                                  <GlobalBadge isGlobal={false} size="xs" />
+                                  {wyrm.machine_translated && (
+                                    <MachineTranslatedBadge size="xs" />
+                                  )}
+                                </>
                               )
                             }
                           >

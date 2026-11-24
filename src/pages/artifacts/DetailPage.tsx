@@ -13,6 +13,7 @@ import EntityNotFound from '@/components/ui/EntityNotFound';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import FactionTag from '@/components/ui/FactionTag';
 import GlobalBadge from '@/components/ui/GlobalBadge';
+import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import QualityIcon from '@/components/ui/QualityIcon';
 import { QUALITY_COLOR } from '@/constants/quality';
 import { getLoreGlassStyles } from '@/constants/glass';
@@ -171,6 +172,9 @@ export default function ArtifactPage() {
               <QualityIcon quality={artifact.quality} size={32} />
               {artifact.is_global === false && (
                 <GlobalBadge isGlobal={false} size="lg" />
+              )}
+              {artifact.machine_translated && (
+                <MachineTranslatedBadge size="lg" />
               )}
             </Group>
             <LastUpdated timestamp={artifact.last_updated} />

@@ -16,6 +16,7 @@ import EntitySummaryCard from '@/components/common/EntitySummaryCard';
 import RichText from '@/components/common/RichText';
 import ClassTag from '@/components/ui/ClassTag';
 import GlobalBadge from '@/components/ui/GlobalBadge';
+import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import SafeImage from '@/components/ui/SafeImage';
 import SortableTh from '@/components/ui/SortableTh';
 import TierBadge from '@/components/ui/TierBadge';
@@ -131,7 +132,12 @@ export default function SubclassCatalogTab({
                   imageSrc={icon}
                   titleAccessory={
                     item.is_global === false && (
-                      <GlobalBadge isGlobal={false} size="xs" />
+                      <Group gap={6} wrap="nowrap">
+                        <GlobalBadge isGlobal={false} size="xs" />
+                        {item.machine_translated && (
+                          <MachineTranslatedBadge size="xs" />
+                        )}
+                      </Group>
                     )
                   }
                   metadata={
@@ -230,6 +236,9 @@ export default function SubclassCatalogTab({
                           </Text>
                           {item.is_global === false && (
                             <GlobalBadge isGlobal={false} size="xs" />
+                          )}
+                          {item.machine_translated && (
+                            <MachineTranslatedBadge size="xs" />
                           )}
                         </Group>
                       </Table.Td>

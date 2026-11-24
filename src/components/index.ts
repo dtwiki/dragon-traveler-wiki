@@ -15,6 +15,7 @@ export { default as ExpandableText } from './ui/ExpandableText';
 export { default as FactionTag } from './ui/FactionTag';
 export type { FactionTagProps } from './ui/FactionTag';
 export { default as GlobalBadge } from './ui/GlobalBadge';
+export { default as MachineTranslatedBadge } from './ui/MachineTranslatedBadge';
 export { default as IconBadge } from './ui/IconBadge';
 export { default as InlineMarkup } from './ui/InlineMarkup';
 export { default as MobileBottomDrawer } from './ui/MobileBottomDrawer';

@@ -32,5 +32,6 @@ export interface Wyrm {
   skills: WyrmSkill[];
   star_upgrades: WyrmStarUpgrade[];
   is_global?: boolean;
+  machine_translated?: boolean;
   last_updated: number;
 }

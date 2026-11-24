@@ -8,5 +8,6 @@ export interface Subclass {
   bonuses: string[];
   effect: string;
   is_global?: boolean;
+  machine_translated?: boolean;
   last_updated: number;
 }

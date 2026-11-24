@@ -9,6 +9,7 @@ import PageFetchError from '@/components/ui/PageFetchError';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import GlobalBadge from '@/components/ui/GlobalBadge';
+import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import QualityIcon from '@/components/ui/QualityIcon';
 import { GEAR_TYPE_ORDER } from '@/constants/gear-colors';
 import { QUALITY_COLOR } from '@/constants/quality';
@@ -240,6 +241,9 @@ export default function GearSetPage() {
             <QualityIcon quality={setItems[0].quality} size={32} />
             {setData?.is_global === false && (
               <GlobalBadge isGlobal={false} size="lg" />
+            )}
+            {setData?.machine_translated && (
+              <MachineTranslatedBadge size="lg" />
             )}
             <Badge variant="light" color={accent.secondary} size="lg">
               {setItems.length} item{setItems.length !== 1 ? 's' : ''}

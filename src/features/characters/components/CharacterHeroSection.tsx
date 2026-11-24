@@ -1,5 +1,5 @@
 ﻿import type { Illustration } from '@/assets';
-import { GlobalBadge } from '@/components';
+import { GlobalBadge, MachineTranslatedBadge } from '@/components';
 import LastUpdated from '@/components/common/LastUpdated';
 import Breadcrumbs from '@/components/layout/Breadcrumbs';
 import ClassTag from '@/components/ui/ClassTag';
@@ -214,6 +214,9 @@ export default function CharacterPageHeroSection({
                     size="lg"
                   />
                   <GlobalBadge isGlobal={character.is_global} size="lg" />
+                  {character.machine_translated && (
+                    <MachineTranslatedBadge size="lg" />
+                  )}
                 </Group>
 
                 <CharacterCombatMetadata
