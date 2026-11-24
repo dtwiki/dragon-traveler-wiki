@@ -15,6 +15,7 @@ import EntitySummaryCard from '@/components/common/EntitySummaryCard';
 import RichText from '@/components/common/RichText';
 import SafeImage from '@/components/ui/SafeImage';
 import GlobalBadge from '@/components/ui/GlobalBadge';
+import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import SortableTh from '@/components/ui/SortableTh';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
@@ -164,7 +165,12 @@ export default function StatusEffects() {
                       reserveImageSpace
                       titleAccessory={
                         effect.is_global === false && (
-                          <GlobalBadge isGlobal={false} size="xs" />
+                          <Group gap={6} wrap="nowrap">
+                            <GlobalBadge isGlobal={false} size="xs" />
+                            {effect.machine_translated && (
+                              <MachineTranslatedBadge size="xs" />
+                            )}
+                          </Group>
                         )
                       }
                       metadata={
@@ -246,6 +252,9 @@ export default function StatusEffects() {
                               </Text>
                               {effect.is_global === false && (
                                 <GlobalBadge isGlobal={false} size="xs" />
+                              )}
+                              {effect.machine_translated && (
+                                <MachineTranslatedBadge size="xs" />
                               )}
                             </Group>
                           </Table.Td>

@@ -4,6 +4,7 @@ import { Badge, Group, SimpleGrid, Stack, Text } from '@mantine/core';
 import { useInViewport, useMergedRef, useReducedMotion } from '@mantine/hooks';
 import { InteractiveSurface } from '@/components/ui/Surface';
 import GlobalBadge from '@/components/ui/GlobalBadge';
+import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import SafeImage from '@/components/ui/SafeImage';
 import SafeVideo from '@/components/ui/SafeVideo';
 import { getOracleScrollVideo, getRelicIcon } from '@/assets';
@@ -185,6 +186,9 @@ export default function OracleScrollsTab({
                                 </Text>
                                 {relic.is_global === false && (
                                   <GlobalBadge isGlobal={false} size="xs" />
+                                )}
+                                {relic.machine_translated && (
+                                  <MachineTranslatedBadge size="xs" />
                                 )}
                               </Group>
                               <RelicTypeTag type={relic.type} />

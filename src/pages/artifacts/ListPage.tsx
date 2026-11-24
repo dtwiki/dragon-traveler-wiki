@@ -28,6 +28,7 @@ import {
 } from '@/constants/ui';
 import QualityIcon from '@/components/ui/QualityIcon';
 import GlobalBadge from '@/components/ui/GlobalBadge';
+import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import {
   useArtifacts,
   useStatusEffects,
@@ -181,6 +182,9 @@ export default function Artifacts() {
                           {artifact.is_global === false && (
                             <GlobalBadge isGlobal={false} size="xs" />
                           )}
+                          {artifact.machine_translated && (
+                            <MachineTranslatedBadge size="xs" />
+                          )}
                         </Group>
                       }
                       metadata={
@@ -279,7 +283,12 @@ export default function Artifacts() {
                             fontWeight={500}
                             accessory={
                               artifact.is_global === false && (
-                                <GlobalBadge isGlobal={false} size="xs" />
+                                <>
+                                  <GlobalBadge isGlobal={false} size="xs" />
+                                  {artifact.machine_translated && (
+                                    <MachineTranslatedBadge size="xs" />
+                                  )}
+                                </>
                               )
                             }
                           >

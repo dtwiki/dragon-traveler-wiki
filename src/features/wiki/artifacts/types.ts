@@ -23,5 +23,6 @@ export interface Artifact {
   rows: number;
   treasures: ArtifactTreasure[];
   is_global?: boolean;
+  machine_translated?: boolean;
   last_updated: number;
 }

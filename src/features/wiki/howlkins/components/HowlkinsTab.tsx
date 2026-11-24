@@ -18,6 +18,7 @@ import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import SortableTh from '@/components/ui/SortableTh';
 import QualityIcon from '@/components/ui/QualityIcon';
 import GlobalBadge from '@/components/ui/GlobalBadge';
+import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import { InteractiveSurface, StaticSurface } from '@/components/ui/Surface';
 import HowlkinStats from '@/features/wiki/howlkins/components/HowlkinStats';
 import type { HowlkinFilters } from '@/features/wiki/howlkins/filters';
@@ -199,6 +200,11 @@ export default function HowlkinsTab({
                             <GlobalBadge isGlobal={false} size="xs" />
                           </Box>
                         )}
+                        {howlkin.machine_translated && (
+                          <Box style={{ flexShrink: 0 }}>
+                            <MachineTranslatedBadge size="xs" />
+                          </Box>
+                        )}
                       </Group>
                       <Stack gap={2}>
                         {(howlkin.passive_effects ?? []).map((e, i) => (
@@ -294,6 +300,9 @@ export default function HowlkinsTab({
                           )}
                           {howlkin.is_global === false && (
                             <GlobalBadge isGlobal={false} size="xs" />
+                          )}
+                          {howlkin.machine_translated && (
+                            <MachineTranslatedBadge size="xs" />
                           )}
                         </Group>
                       </Table.Td>

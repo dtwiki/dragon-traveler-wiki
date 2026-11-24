@@ -2,6 +2,7 @@ import { Link } from 'react-router';
 import { Badge, Group, SimpleGrid, Stack, Table, Text } from '@mantine/core';
 import { InteractiveSurface } from '@/components/ui/Surface';
 import GlobalBadge from '@/components/ui/GlobalBadge';
+import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import ListPageShell from '@/components/layout/ListPageShell';
 import { CardGridLoading } from '@/components/layout/PageLoadingSkeleton';
 import SearchableGridPanel from '@/components/layout/SearchableGridPanel';
@@ -102,6 +103,9 @@ export default function GoldenAlliancesTab({
                   </Text>
                   {alliance.is_global === false && (
                     <GlobalBadge isGlobal={false} size="sm" />
+                  )}
+                  {alliance.machine_translated && (
+                    <MachineTranslatedBadge size="sm" />
                   )}
                 </Group>
 

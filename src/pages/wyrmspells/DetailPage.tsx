@@ -11,6 +11,7 @@ import EntityNotFound from '@/components/ui/EntityNotFound';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import FactionTag from '@/components/ui/FactionTag';
 import GlobalBadge from '@/components/ui/GlobalBadge';
+import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import QualityIcon from '@/components/ui/QualityIcon';
 import WyrmspellTypeTag from '@/features/wiki/wyrmspells/components/WyrmspellTypeTag';
 import { getStableTagColor } from '@/constants/tag-colors';
@@ -143,6 +144,9 @@ export default function WyrmspellPage() {
               )}
               {wyrmspell.is_global === false && (
                 <GlobalBadge isGlobal={false} size="lg" />
+              )}
+              {wyrmspell.machine_translated && (
+                <MachineTranslatedBadge size="lg" />
               )}
             </Group>
             <LastUpdated timestamp={wyrmspell.last_updated} />

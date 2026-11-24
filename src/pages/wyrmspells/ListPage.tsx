@@ -30,6 +30,7 @@ import {
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
 import GlobalBadge from '@/components/ui/GlobalBadge';
+import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import WyrmspellTypeTag from '@/features/wiki/wyrmspells/components/WyrmspellTypeTag';
 import {
   compareWyrmspells,
@@ -285,6 +286,11 @@ export default function Wyrmspells() {
                                 <GlobalBadge isGlobal={false} size="xs" />
                               </Box>
                             )}
+                            {spell.machine_translated && (
+                              <Box style={{ flexShrink: 0 }}>
+                                <MachineTranslatedBadge size="xs" />
+                              </Box>
+                            )}
                           </Group>
                           <Group gap="sm" wrap="wrap">
                             <WyrmspellTypeTag type={spell.type} />
@@ -373,7 +379,12 @@ export default function Wyrmspells() {
                             to={`/wyrmspells/${spell.slug}`}
                             accessory={
                               spell.is_global === false && (
-                                <GlobalBadge isGlobal={false} size="xs" />
+                                <>
+                                  <GlobalBadge isGlobal={false} size="xs" />
+                                  {spell.machine_translated && (
+                                    <MachineTranslatedBadge size="xs" />
+                                  )}
+                                </>
                               )
                             }
                           >

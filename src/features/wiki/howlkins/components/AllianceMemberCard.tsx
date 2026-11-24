@@ -1,6 +1,7 @@
 import SafeImage from '@/components/ui/SafeImage';
 import { getHowlkinIcon } from '@/assets';
 import GlobalBadge from '@/components/ui/GlobalBadge';
+import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import QualityIcon from '@/components/ui/QualityIcon';
 import HowlkinStats from '@/features/wiki/howlkins/components/HowlkinStats';
 import type { Howlkin } from '@/features/wiki/howlkins/types';
@@ -48,6 +49,9 @@ export default function AllianceMemberCard({
               <QualityIcon quality={howlkin.quality} size={14} />
               {howlkin.is_global === false && (
                 <GlobalBadge isGlobal={false} size="xs" />
+              )}
+              {howlkin.machine_translated && (
+                <MachineTranslatedBadge size="xs" />
               )}
             </Group>
             {(howlkin.passive_effects ?? []).map((e, i) => (

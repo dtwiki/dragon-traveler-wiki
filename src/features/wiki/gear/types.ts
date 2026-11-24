@@ -13,6 +13,7 @@ export interface GearSet {
   name: string;
   set_bonus?: GearSetBonus;
   is_global?: boolean;
+  machine_translated?: boolean;
   last_updated?: number;
 }
 
@@ -26,5 +27,6 @@ export interface Gear {
   stats: Record<string, string | number>;
   set_bonus?: GearSetBonus;
   is_global?: boolean;
+  machine_translated?: boolean;
   last_updated?: number;
 }

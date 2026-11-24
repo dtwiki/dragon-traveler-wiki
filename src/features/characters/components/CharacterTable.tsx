@@ -9,6 +9,7 @@ import {
 import ClassTag from '@/components/ui/ClassTag';
 import FactionTag from '@/components/ui/FactionTag';
 import GlobalBadge from '@/components/ui/GlobalBadge';
+import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import QualityIcon from '@/components/ui/QualityIcon';
 import SortableTh from '@/components/ui/SortableTh';
 import TierBadge from '@/components/ui/TierBadge';
@@ -131,7 +132,12 @@ export default function CharacterTable({
                 </Group>
               </Table.Td>
               <Table.Td>
-                <GlobalBadge isGlobal={char.is_global} size="sm" />
+                <Group gap={4} wrap="wrap">
+                  <GlobalBadge isGlobal={char.is_global} size="sm" />
+                  {char.machine_translated && (
+                    <MachineTranslatedBadge size="sm" />
+                  )}
+                </Group>
               </Table.Td>
               {selectedTierListName && (
                 <Table.Td>

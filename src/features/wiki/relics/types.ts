@@ -20,5 +20,6 @@ export interface Relic {
   type: RelicType;
   quality: Quality;
   is_global?: boolean;
+  machine_translated?: boolean;
   last_updated?: number;
 }

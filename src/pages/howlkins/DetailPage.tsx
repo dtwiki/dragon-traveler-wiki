@@ -8,6 +8,7 @@ import PageFetchError from '@/components/ui/PageFetchError';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import GlobalBadge from '@/components/ui/GlobalBadge';
+import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import AllianceMemberCard from '@/features/wiki/howlkins/components/AllianceMemberCard';
 import type { Howlkin } from '@/features/wiki/howlkins/types';
 import {
@@ -132,6 +133,9 @@ export default function GoldenAllianceDetailPage() {
             <DetailPageTitle>{alliance.name}</DetailPageTitle>
             {alliance.is_global === false && (
               <GlobalBadge isGlobal={false} size="lg" />
+            )}
+            {alliance.machine_translated && (
+              <MachineTranslatedBadge size="lg" />
             )}
             <Badge variant="light" color={accent.secondary} size="lg">
               {alliance.howlkins.length} member

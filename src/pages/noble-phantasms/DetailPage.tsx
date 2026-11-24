@@ -11,6 +11,7 @@ import EntityNotFound from '@/components/ui/EntityNotFound';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import EmptyState from '@/components/ui/EmptyState';
 import GlobalBadge from '@/components/ui/GlobalBadge';
+import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import { StaticSurface } from '@/components/ui/Surface';
 import { getHeroIconBoxStyles } from '@/constants/detail-styles';
 import { IMAGE_SIZE, PAGE_WIDTH } from '@/constants/ui';
@@ -150,6 +151,9 @@ export default function NoblePhantasmPage() {
               <QualityIcon quality={noblePhantasm.quality} size={32} />
               {noblePhantasm.is_global === false && (
                 <GlobalBadge isGlobal={false} size="lg" />
+              )}
+              {noblePhantasm.machine_translated && (
+                <MachineTranslatedBadge size="lg" />
               )}
             </Group>
             <LastUpdated timestamp={noblePhantasm.last_updated} />

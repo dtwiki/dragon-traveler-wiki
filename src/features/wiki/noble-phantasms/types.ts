@@ -16,6 +16,7 @@ export interface NoblePhantasm {
   quality: Quality;
   character_slug: string | null;
   is_global?: boolean | null;
+  machine_translated?: boolean;
   lore?: string | null;
   effects: NoblePhantasmEffect[];
   skills: NoblePhantasmSkill[];

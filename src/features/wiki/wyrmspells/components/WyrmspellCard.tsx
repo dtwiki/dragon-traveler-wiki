@@ -5,6 +5,7 @@ import { InteractiveSurface } from '@/components/ui/Surface';
 import { LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
 import FactionTag from '@/components/ui/FactionTag';
 import GlobalBadge from '@/components/ui/GlobalBadge';
+import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import QualityIcon from '@/components/ui/QualityIcon';
 import type {
   Wyrmspell,
@@ -63,6 +64,7 @@ export default function WyrmspellCard({
           {wyrmspell.is_global === false && (
             <GlobalBadge isGlobal={false} size="xs" />
           )}
+          {wyrmspell.machine_translated && <MachineTranslatedBadge size="xs" />}
         </Group>
         <Group gap={4} justify="center">
           <WyrmspellTypeTag type={displayType as WyrmspellType} />

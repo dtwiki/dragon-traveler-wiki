@@ -11,6 +11,7 @@ import CharacterPortrait from '@/features/characters/components/CharacterPortrai
 import ClassTag from '@/components/ui/ClassTag';
 import FactionTag from '@/components/ui/FactionTag';
 import GlobalBadge from '@/components/ui/GlobalBadge';
+import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import QualityIcon from '@/components/ui/QualityIcon';
 import { InteractiveSurface } from '@/components/ui/Surface';
 import { LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
@@ -80,7 +81,12 @@ export default function CharacterVariantSelector({
                           </Text>
                           <QualityIcon quality={variant.quality} size={16} />
                         </Group>
-                        <GlobalBadge isGlobal={variant.is_global} size="sm" />
+                        <Group gap={4} justify="flex-end">
+                          <GlobalBadge isGlobal={variant.is_global} size="sm" />
+                          {variant.machine_translated && (
+                            <MachineTranslatedBadge size="sm" />
+                          )}
+                        </Group>
                       </Group>
 
                       <Group gap={6} wrap="wrap" align="center">
