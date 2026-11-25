@@ -2,7 +2,7 @@ import LazyKonamiEasterEgg from '@/components/tools/LazyKonamiEasterEgg';
 import LazySearchModal from '@/components/tools/LazySearchModal';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import { getGlassStyles } from '@/constants/glass';
-import { BRAND_TITLE_STYLE, LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
+import { LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
 import { isDetailRoute, ROUTE_PATH } from '@/constants/route-meta';
 import { HEADER_HEIGHT, IMAGE_SIZE, SIDEBAR, TRANSITION } from '@/constants/ui';
 import { BannerContext } from '@/contexts';
@@ -134,7 +134,7 @@ export default function AppLayout() {
                 fit="contain"
                 style={{ maxWidth: '45vw' }}
               />
-              <Title order={3} visibleFrom="sm" style={BRAND_TITLE_STYLE}>
+              <Title order={3} visibleFrom="sm" className="dt-brand-title">
                 Dragon Traveler Wiki
               </Title>
             </Link>

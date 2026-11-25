@@ -132,3 +132,21 @@ body {
     transition: none;
   }
 }
+
+.dt-brand-title {
+  font-family: 'Space Grotesk', 'Plus Jakarta Sans', system-ui, sans-serif;
+  letter-spacing: 0.02em;
+  font-weight: 700;
+  background-image: var(--dt-brand-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* The gradient's pale start fades into light backgrounds. */
+:root[data-mantine-color-scheme='light'] .dt-brand-title {
+  background-image: none;
+  color: var(--dt-wordmark-color-light);
+  -webkit-text-fill-color: var(--dt-wordmark-color-light);
+}
