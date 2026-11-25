@@ -10,6 +10,7 @@ import {
   getRouteById,
   ROUTE_PATH,
   getRouteMetaEntry,
+  isDetailRoute,
   SITE_NAME,
   type RouteMeta as RouteMetaType,
 } from '@/constants/route-meta';
@@ -57,18 +58,24 @@ export default function RouteMeta() {
       !showDefaultImage &&
       existingPageUrl === pageUrl &&
       Boolean(existingImage && existingImage !== DEFAULT_IMAGE);
+    // A directly loaded detail page already carries its entity's title and
+    // description from the generated HTML; keep them rather than the generic
+    // route text, which is what crawlers would otherwise index.
+    const preserveEntityText =
+      existingPageUrl === pageUrl && isDetailRoute(pathname);
 
-    document.title = pageTitle;
     upsertCanonicalLink(pageUrl);
-    upsertMetaTag('name', 'description', routeMeta.description);
-
-    upsertMetaTag('property', 'og:title', pageTitle);
-    upsertMetaTag('property', 'og:description', routeMeta.description);
+    if (!preserveEntityText) {
+      document.title = pageTitle;
+      upsertMetaTag('name', 'description', routeMeta.description);
+      upsertMetaTag('property', 'og:title', pageTitle);
+      upsertMetaTag('property', 'og:description', routeMeta.description);
+      upsertMetaTag('name', 'twitter:title', pageTitle);
+      upsertMetaTag('name', 'twitter:description', routeMeta.description);
+    }
     upsertMetaTag('property', 'og:url', pageUrl);
     upsertMetaTag('property', 'og:type', 'website');
     upsertMetaTag('property', 'og:site_name', SITE_NAME);
-    upsertMetaTag('name', 'twitter:title', pageTitle);
-    upsertMetaTag('name', 'twitter:description', routeMeta.description);
 
     if (preserveRelatedImage) return;
 
