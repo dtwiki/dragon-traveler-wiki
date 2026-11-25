@@ -1,3 +1,4 @@
+import RegionBadges from '@/components/ui/RegionBadges';
 import { Link } from 'react-router';
 import {
   Badge,
@@ -24,8 +25,6 @@ import ListPageShell from '@/components/layout/ListPageShell';
 import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import SortableTh from '@/components/ui/SortableTh';
 import QualityIcon from '@/components/ui/QualityIcon';
-import GlobalBadge from '@/components/ui/GlobalBadge';
-import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import RelicTypeTag from '@/features/wiki/relics/components/RelicTypeTag';
 import type { RelicFilters } from '@/features/wiki/relics/filters';
 import type { Relic } from '@/features/wiki/relics/types';
@@ -185,12 +184,10 @@ export default function RelicsTab({
                   titleAccessory={
                     <Group gap={6} wrap="nowrap">
                       {item.quality && <QualityIcon quality={item.quality} />}
-                      {item.is_global === false && (
-                        <GlobalBadge isGlobal={false} size="xs" />
-                      )}
-                      {item.machine_translated && (
-                        <MachineTranslatedBadge size="xs" />
-                      )}
+                      <RegionBadges
+                        isGlobal={item.is_global}
+                        machineTranslated={item.machine_translated}
+                      />
                     </Group>
                   }
                   metadata={
@@ -285,12 +282,10 @@ export default function RelicsTab({
                           to={`/oracle-scrolls/${oracleScroll.slug}`}
                           accessory={
                             item.is_global === false && (
-                              <>
-                                <GlobalBadge isGlobal={false} size="xs" />
-                                {item.machine_translated && (
-                                  <MachineTranslatedBadge size="xs" />
-                                )}
-                              </>
+                              <RegionBadges
+                                isGlobal={false}
+                                machineTranslated={item.machine_translated}
+                              />
                             )
                           }
                         >
@@ -302,12 +297,10 @@ export default function RelicsTab({
                             <Text fw={600} size="sm">
                               {item.name}
                             </Text>
-                            {item.is_global === false && (
-                              <GlobalBadge isGlobal={false} size="xs" />
-                            )}
-                            {item.machine_translated && (
-                              <MachineTranslatedBadge size="xs" />
-                            )}
+                            <RegionBadges
+                              isGlobal={item.is_global}
+                              machineTranslated={item.machine_translated}
+                            />
                           </Group>
                         </Table.Td>
                       )}

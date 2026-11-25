@@ -79,6 +79,7 @@ export default function RecentUpdatesSection() {
                   size="xs"
                   variant="light"
                   color={TYPE_COLORS[change.type] || 'gray'}
+                  tt="capitalize"
                   style={{ flexShrink: 0 }}
                 >
                   {change.type}

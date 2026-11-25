@@ -1,4 +1,5 @@
 ﻿import ChangeHistory from '@/components/common/ChangeHistory';
+import RegionBadges from '@/components/ui/RegionBadges';
 import DetailPageHero from '@/components/common/DetailPageHero';
 import DetailPageNavigation from '@/components/common/DetailPageNavigation';
 import DetailPageTitle from '@/components/common/DetailPageTitle';
@@ -7,8 +8,6 @@ import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import PageFetchError from '@/components/ui/PageFetchError';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
-import GlobalBadge from '@/components/ui/GlobalBadge';
-import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import AllianceMemberCard from '@/features/wiki/howlkins/components/AllianceMemberCard';
 import type { Howlkin } from '@/features/wiki/howlkins/types';
 import {
@@ -131,12 +130,11 @@ export default function GoldenAllianceDetailPage() {
         <Stack gap={6}>
           <Group gap="sm" align="center" wrap="wrap">
             <DetailPageTitle>{alliance.name}</DetailPageTitle>
-            {alliance.is_global === false && (
-              <GlobalBadge isGlobal={false} size="lg" />
-            )}
-            {alliance.machine_translated && (
-              <MachineTranslatedBadge size="lg" />
-            )}
+            <RegionBadges
+              isGlobal={alliance.is_global}
+              machineTranslated={alliance.machine_translated}
+              context="detail"
+            />
             <Badge variant="light" color={accent.secondary} size="lg">
               {alliance.howlkins.length} member
               {alliance.howlkins.length !== 1 ? 's' : ''}

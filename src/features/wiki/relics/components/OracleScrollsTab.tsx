@@ -1,10 +1,9 @@
+import RegionBadges from '@/components/ui/RegionBadges';
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router';
 import { Badge, Group, SimpleGrid, Stack, Text } from '@mantine/core';
 import { useInViewport, useMergedRef, useReducedMotion } from '@mantine/hooks';
 import { InteractiveSurface } from '@/components/ui/Surface';
-import GlobalBadge from '@/components/ui/GlobalBadge';
-import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import SafeImage from '@/components/ui/SafeImage';
 import SafeVideo from '@/components/ui/SafeVideo';
 import { getOracleScrollVideo, getRelicIcon } from '@/assets';
@@ -184,12 +183,10 @@ export default function OracleScrollsTab({
                                 <Text size="sm" fw={500}>
                                   {relic.name}
                                 </Text>
-                                {relic.is_global === false && (
-                                  <GlobalBadge isGlobal={false} size="xs" />
-                                )}
-                                {relic.machine_translated && (
-                                  <MachineTranslatedBadge size="xs" />
-                                )}
+                                <RegionBadges
+                                  isGlobal={relic.is_global}
+                                  machineTranslated={relic.machine_translated}
+                                />
                               </Group>
                               <RelicTypeTag type={relic.type} />
                             </Stack>

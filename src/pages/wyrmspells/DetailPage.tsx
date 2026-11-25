@@ -1,4 +1,5 @@
 ﻿import SafeImage from '@/components/ui/SafeImage';
+import RegionBadges from '@/components/ui/RegionBadges';
 import { getWyrmspellIcon } from '@/assets';
 import ChangeHistory from '@/components/common/ChangeHistory';
 import DetailPageHero from '@/components/common/DetailPageHero';
@@ -10,8 +11,6 @@ import PageFetchError from '@/components/ui/PageFetchError';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import FactionTag from '@/components/ui/FactionTag';
-import GlobalBadge from '@/components/ui/GlobalBadge';
-import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import QualityIcon from '@/components/ui/QualityIcon';
 import WyrmspellTypeTag from '@/features/wiki/wyrmspells/components/WyrmspellTypeTag';
 import { getStableTagColor } from '@/constants/tag-colors';
@@ -142,12 +141,11 @@ export default function WyrmspellPage() {
               {maxQuality && (
                 <QualityIcon quality={maxQuality.quality} size={32} />
               )}
-              {wyrmspell.is_global === false && (
-                <GlobalBadge isGlobal={false} size="lg" />
-              )}
-              {wyrmspell.machine_translated && (
-                <MachineTranslatedBadge size="lg" />
-              )}
+              <RegionBadges
+                isGlobal={wyrmspell.is_global}
+                machineTranslated={wyrmspell.machine_translated}
+                context="detail"
+              />
             </Group>
             <LastUpdated timestamp={wyrmspell.last_updated} />
             <Group gap="sm" mt={4}>

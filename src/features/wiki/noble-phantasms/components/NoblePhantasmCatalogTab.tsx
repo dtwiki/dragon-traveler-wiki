@@ -1,3 +1,4 @@
+import RegionBadges from '@/components/ui/RegionBadges';
 import { Group, ScrollArea, SimpleGrid, Table, Text } from '@mantine/core';
 import { getNoblePhantasmIcon } from '@/assets';
 import EntitySummaryCard from '@/components/common/EntitySummaryCard';
@@ -7,8 +8,6 @@ import ListPageShell from '@/components/layout/ListPageShell';
 import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import ExpandableText from '@/components/ui/ExpandableText';
 import QualityIcon from '@/components/ui/QualityIcon';
-import GlobalBadge from '@/components/ui/GlobalBadge';
-import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import SafeImage from '@/components/ui/SafeImage';
 import SortableTh from '@/components/ui/SortableTh';
 import RichText from '@/components/common/RichText';
@@ -120,12 +119,10 @@ export default function NoblePhantasmCatalogTab({
                   titleAccessory={
                     <Group gap={6} wrap="nowrap">
                       <QualityIcon quality={item.quality} />
-                      {item.is_global === false && (
-                        <GlobalBadge isGlobal={false} size="xs" />
-                      )}
-                      {item.machine_translated && (
-                        <MachineTranslatedBadge size="xs" />
-                      )}
+                      <RegionBadges
+                        isGlobal={item.is_global}
+                        machineTranslated={item.machine_translated}
+                      />
                     </Group>
                   }
                   metadata={
@@ -232,12 +229,10 @@ export default function NoblePhantasmCatalogTab({
                         to={`/noble-phantasms/${item.slug}`}
                         accessory={
                           item.is_global === false && (
-                            <>
-                              <GlobalBadge isGlobal={false} size="xs" />
-                              {item.machine_translated && (
-                                <MachineTranslatedBadge size="xs" />
-                              )}
-                            </>
+                            <RegionBadges
+                              isGlobal={false}
+                              machineTranslated={item.machine_translated}
+                            />
                           )
                         }
                       >

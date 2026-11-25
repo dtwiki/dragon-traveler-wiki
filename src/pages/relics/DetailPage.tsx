@@ -1,4 +1,5 @@
 ﻿import { getOracleScrollVideo } from '@/assets';
+import RegionBadges from '@/components/ui/RegionBadges';
 import ChangeHistory from '@/components/common/ChangeHistory';
 import DetailPageHero from '@/components/common/DetailPageHero';
 import DetailPageNavigation from '@/components/common/DetailPageNavigation';
@@ -9,8 +10,6 @@ import SectionJumpNav from '@/components/layout/SectionJumpNav';
 import PageFetchError from '@/components/ui/PageFetchError';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
-import GlobalBadge from '@/components/ui/GlobalBadge';
-import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import QualityIcon from '@/components/ui/QualityIcon';
 import { QUALITY_COLOR } from '@/constants/quality';
 import { RELIC_TYPE_ORDER } from '@/constants/relic-colors';
@@ -187,12 +186,15 @@ export default function OracleScrollPage() {
           <Group gap="sm" align="center" wrap="wrap">
             <DetailPageTitle>{currentScroll.name}</DetailPageTitle>
             <QualityIcon quality={scrollRelics[0].quality} size={32} />
-            {scrollRelics.every((relic) => relic.is_global === false) && (
-              <GlobalBadge isGlobal={false} size="lg" />
-            )}
-            {scrollRelics.some((relic) => relic.machine_translated) && (
-              <MachineTranslatedBadge size="lg" />
-            )}
+            <RegionBadges
+              isGlobal={
+                !scrollRelics.every((relic) => relic.is_global === false)
+              }
+              machineTranslated={scrollRelics.some(
+                (relic) => relic.machine_translated,
+              )}
+              context="detail"
+            />
             <Badge variant="light" color={accent.secondary} size="lg">
               {scrollRelics.length} relic
               {scrollRelics.length !== 1 ? 's' : ''}

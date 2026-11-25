@@ -1,4 +1,5 @@
 ﻿import ExpandableText from '@/components/ui/ExpandableText';
+import RegionBadges from '@/components/ui/RegionBadges';
 import SafeImage from '@/components/ui/SafeImage';
 import { getWyrmPortrait } from '@/assets';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
@@ -20,8 +21,6 @@ import DataCorrectionButton from '@/components/tools/DataCorrectionButton';
 import SortableTh from '@/components/ui/SortableTh';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
-import GlobalBadge from '@/components/ui/GlobalBadge';
-import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import { FACTION_SLUGS } from '@/constants/faction-colors';
 import { QUALITY_ORDER } from '@/constants/quality';
 import { getMinWidthStyle } from '@/constants/styles';
@@ -202,12 +201,10 @@ export default function WyrmsListPage() {
                       titleAccessory={
                         <Group gap={6} wrap="nowrap">
                           <QualityIcon quality={wyrm.quality} />
-                          {wyrm.is_global === false && (
-                            <GlobalBadge isGlobal={false} size="xs" />
-                          )}
-                          {wyrm.machine_translated && (
-                            <MachineTranslatedBadge size="xs" />
-                          )}
+                          <RegionBadges
+                            isGlobal={wyrm.is_global}
+                            machineTranslated={wyrm.machine_translated}
+                          />
                         </Group>
                       }
                       metadata={
@@ -295,12 +292,10 @@ export default function WyrmsListPage() {
                             to={`/wyrms/${wyrm.slug}`}
                             accessory={
                               wyrm.is_global === false && (
-                                <>
-                                  <GlobalBadge isGlobal={false} size="xs" />
-                                  {wyrm.machine_translated && (
-                                    <MachineTranslatedBadge size="xs" />
-                                  )}
-                                </>
+                                <RegionBadges
+                                  isGlobal={false}
+                                  machineTranslated={wyrm.machine_translated}
+                                />
                               )
                             }
                           >

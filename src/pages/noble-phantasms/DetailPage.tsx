@@ -1,4 +1,5 @@
 ﻿import SafeImage from '@/components/ui/SafeImage';
+import RegionBadges from '@/components/ui/RegionBadges';
 import { getNoblePhantasmIcon } from '@/assets';
 import ChangeHistory from '@/components/common/ChangeHistory';
 import DetailPageHero from '@/components/common/DetailPageHero';
@@ -10,8 +11,6 @@ import PageFetchError from '@/components/ui/PageFetchError';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import EmptyState from '@/components/ui/EmptyState';
-import GlobalBadge from '@/components/ui/GlobalBadge';
-import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import { StaticSurface } from '@/components/ui/Surface';
 import { getHeroIconBoxStyles } from '@/constants/detail-styles';
 import { IMAGE_SIZE, PAGE_WIDTH } from '@/constants/ui';
@@ -149,12 +148,11 @@ export default function NoblePhantasmPage() {
             <Group gap="sm" align="center" wrap="wrap">
               <DetailPageTitle>{noblePhantasm.name}</DetailPageTitle>
               <QualityIcon quality={noblePhantasm.quality} size={32} />
-              {noblePhantasm.is_global === false && (
-                <GlobalBadge isGlobal={false} size="lg" />
-              )}
-              {noblePhantasm.machine_translated && (
-                <MachineTranslatedBadge size="lg" />
-              )}
+              <RegionBadges
+                isGlobal={noblePhantasm.is_global}
+                machineTranslated={noblePhantasm.machine_translated}
+                context="detail"
+              />
             </Group>
             <LastUpdated timestamp={noblePhantasm.last_updated} />
 

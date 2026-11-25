@@ -1,3 +1,4 @@
+import RegionBadges from '@/components/ui/RegionBadges';
 import ExpandableText from '@/components/ui/ExpandableText';
 import SafeImage from '@/components/ui/SafeImage';
 import { getGearIcon } from '@/assets';
@@ -13,8 +14,6 @@ import SortableTh from '@/components/ui/SortableTh';
 import { IMAGE_SIZE, CARD_GRID_COLS } from '@/constants/ui';
 import { getMinWidthStyle } from '@/constants/styles';
 import QualityIcon from '@/components/ui/QualityIcon';
-import GlobalBadge from '@/components/ui/GlobalBadge';
-import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import GearTypeTag from '@/features/wiki/gear/components/GearTypeTag';
 import type { Gear, GearSet } from '@/features/wiki/gear/types';
 import type { GearFilters } from '@/features/wiki/gear/filters';
@@ -155,12 +154,10 @@ export default function GearTab({
                   titleAccessory={
                     <Group gap={6} wrap="nowrap">
                       {item.quality && <QualityIcon quality={item.quality} />}
-                      {item.is_global === false && (
-                        <GlobalBadge isGlobal={false} size="xs" />
-                      )}
-                      {item.machine_translated && (
-                        <MachineTranslatedBadge size="xs" />
-                      )}
+                      <RegionBadges
+                        isGlobal={item.is_global}
+                        machineTranslated={item.machine_translated}
+                      />
                     </Group>
                   }
                   metadata={
@@ -258,12 +255,10 @@ export default function GearTab({
                         to={`/gear-sets/${item.set}`}
                         accessory={
                           item.is_global === false && (
-                            <>
-                              <GlobalBadge isGlobal={false} size="xs" />
-                              {item.machine_translated && (
-                                <MachineTranslatedBadge size="xs" />
-                              )}
-                            </>
+                            <RegionBadges
+                              isGlobal={false}
+                              machineTranslated={item.machine_translated}
+                            />
                           )
                         }
                       >

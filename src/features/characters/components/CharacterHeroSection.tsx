@@ -1,5 +1,5 @@
 ﻿import type { Illustration } from '@/assets';
-import { GlobalBadge, MachineTranslatedBadge } from '@/components';
+import RegionBadges from '@/components/ui/RegionBadges';
 import LastUpdated from '@/components/common/LastUpdated';
 import Breadcrumbs from '@/components/layout/Breadcrumbs';
 import ClassTag from '@/components/ui/ClassTag';
@@ -213,10 +213,11 @@ export default function CharacterPageHeroSection({
                     characterClass={character.character_class}
                     size="lg"
                   />
-                  <GlobalBadge isGlobal={character.is_global} size="lg" />
-                  {character.machine_translated && (
-                    <MachineTranslatedBadge size="lg" />
-                  )}
+                  <RegionBadges
+                    isGlobal={character.is_global}
+                    machineTranslated={character.machine_translated}
+                    context="detail"
+                  />
                 </Group>
 
                 <CharacterCombatMetadata

@@ -1,6 +1,5 @@
+import RegionBadges from '@/components/ui/RegionBadges';
 import ExpandableText from '@/components/ui/ExpandableText';
-import GlobalBadge from '@/components/ui/GlobalBadge';
-import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import SafeImage from '@/components/ui/SafeImage';
 import { getGearIcon } from '@/assets';
 import RichText from '@/components/common/RichText';
@@ -52,10 +51,10 @@ export default function GearSetItemCard({
                 {item.name}
               </Text>
               <QualityIcon quality={item.quality} size={IMAGE_SIZE.ICON_LG} />
-              {item.is_global === false && (
-                <GlobalBadge isGlobal={false} size="sm" />
-              )}
-              {item.machine_translated && <MachineTranslatedBadge size="sm" />}
+              <RegionBadges
+                isGlobal={item.is_global}
+                machineTranslated={item.machine_translated}
+              />
             </Group>
             <Group gap="xs" wrap="wrap">
               <GearTypeTag type={item.type} />

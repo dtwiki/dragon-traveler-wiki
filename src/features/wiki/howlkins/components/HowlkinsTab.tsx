@@ -1,3 +1,4 @@
+import RegionBadges from '@/components/ui/RegionBadges';
 import { Link } from 'react-router';
 import {
   Box,
@@ -17,8 +18,6 @@ import ListPageShell from '@/components/layout/ListPageShell';
 import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import SortableTh from '@/components/ui/SortableTh';
 import QualityIcon from '@/components/ui/QualityIcon';
-import GlobalBadge from '@/components/ui/GlobalBadge';
-import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import { InteractiveSurface, StaticSurface } from '@/components/ui/Surface';
 import HowlkinStats from '@/features/wiki/howlkins/components/HowlkinStats';
 import type { HowlkinFilters } from '@/features/wiki/howlkins/filters';
@@ -195,16 +194,10 @@ export default function HowlkinsTab({
                         <Box style={{ flexShrink: 0 }}>
                           <QualityIcon quality={howlkin.quality} />
                         </Box>
-                        {howlkin.is_global === false && (
-                          <Box style={{ flexShrink: 0 }}>
-                            <GlobalBadge isGlobal={false} size="xs" />
-                          </Box>
-                        )}
-                        {howlkin.machine_translated && (
-                          <Box style={{ flexShrink: 0 }}>
-                            <MachineTranslatedBadge size="xs" />
-                          </Box>
-                        )}
+                        <RegionBadges
+                          isGlobal={howlkin.is_global}
+                          machineTranslated={howlkin.machine_translated}
+                        />
                       </Group>
                       <Stack gap={2}>
                         {(howlkin.passive_effects ?? []).map((e, i) => (
@@ -298,12 +291,10 @@ export default function HowlkinsTab({
                               {howlkin.name}
                             </Text>
                           )}
-                          {howlkin.is_global === false && (
-                            <GlobalBadge isGlobal={false} size="xs" />
-                          )}
-                          {howlkin.machine_translated && (
-                            <MachineTranslatedBadge size="xs" />
-                          )}
+                          <RegionBadges
+                            isGlobal={howlkin.is_global}
+                            machineTranslated={howlkin.machine_translated}
+                          />
                         </Group>
                       </Table.Td>
                       <Table.Td>

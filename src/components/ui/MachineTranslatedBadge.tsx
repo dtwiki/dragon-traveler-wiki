@@ -1,5 +1,6 @@
 import { Badge, Tooltip } from '@mantine/core';
 import { memo } from 'react';
+import { TAG_BADGE_STYLE } from '@/constants/styles';
 
 interface MachineTranslatedBadgeProps {
   size?: 'xs' | 'sm' | 'md' | 'lg';
@@ -13,7 +14,7 @@ function MachineTranslatedBadge({ size = 'sm' }: MachineTranslatedBadgeProps) {
       maw={260}
       withArrow
     >
-      <Badge variant="light" size={size} color="yellow">
+      <Badge variant="light" size={size} style={TAG_BADGE_STYLE} color="yellow">
         Machine-translated
       </Badge>
     </Tooltip>
