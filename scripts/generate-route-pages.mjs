@@ -198,7 +198,7 @@ export function buildFallbackBody(meta, links = [], separator = ' › ') {
         )
         .join(separator)}</nav>`
     : '';
-  return `<main><h1>${escapeHtml(meta.title)}</h1><p>${escapeHtml(meta.description)}</p>${nav}</main>`;
+  return `<main data-prerender><h1>${escapeHtml(meta.title)}</h1><p>${escapeHtml(meta.description)}</p>${nav}</main>`;
 }
 
 function buildJsonLdScript(data) {

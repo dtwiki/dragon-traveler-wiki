@@ -14,6 +14,13 @@
       rel="stylesheet"
     />
     <title>Dragon Traveler Wiki</title>
+    <!-- Route pages carry static fallback content for crawlers and link previews;
+         browsers running the app hide it so it never flashes unstyled. -->
+    <style>
+      .js #root > [data-prerender] {
+        display: none;
+      }
+    </style>
     <link rel="canonical" href="https://dtwiki.org/" />
     <meta name="theme-color" content="#7950f2" />
     <meta
@@ -144,6 +151,7 @@
       })();
     </script>
     <script>
+      document.documentElement.classList.add('js');
       try {
         var s = localStorage.getItem('mantine-color-scheme-value');
         var c =

@@ -207,7 +207,7 @@ test('route pages include escaped fallback content and breadcrumbs', () => {
 
   assert.match(
     html,
-    /<div id="root"><main><h1>Athena &lt;SSR&gt;<\/h1><p>Tank &amp; support\.<\/p><nav><a href="https:\/\/dtwiki\.org\/">Dragon Traveler Wiki<\/a> › <a href="https:\/\/dtwiki\.org\/characters">Characters<\/a><\/nav><\/main><\/div>/,
+    /<div id="root"><main data-prerender><h1>Athena &lt;SSR&gt;<\/h1><p>Tank &amp; support\.<\/p><nav><a href="https:\/\/dtwiki\.org\/">Dragon Traveler Wiki<\/a> › <a href="https:\/\/dtwiki\.org\/characters">Characters<\/a><\/nav><\/main><\/div>/,
   );
   assert.doesNotMatch(html, /"name":"Athena <SSR>"/);
   assert.deepEqual(
