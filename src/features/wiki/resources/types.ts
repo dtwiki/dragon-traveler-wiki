@@ -14,7 +14,8 @@ export interface Resource {
   name: string;
   description: string;
   category: ResourceCategory;
-  quality: Quality;
+  /** Absent for item qualities the game has not named in English yet. */
+  quality?: Quality;
   is_global?: boolean;
   machine_translated?: boolean;
   last_updated: number;
