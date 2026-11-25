@@ -1,9 +1,7 @@
 import type { CSSProperties } from 'react';
-import { BRAND_TITLE_STYLE } from './styles';
-
 export const HOME_HERO_TITLE_STYLE = {
-  fontFamily: BRAND_TITLE_STYLE.fontFamily,
-  letterSpacing: BRAND_TITLE_STYLE.letterSpacing,
+  fontFamily: '"Space Grotesk", "Plus Jakarta Sans", system-ui, sans-serif',
+  letterSpacing: '0.02em',
   fontWeight: 700,
   fontSize: 'clamp(2.5rem, 7vw, 4.5rem)',
 } as const satisfies CSSProperties;

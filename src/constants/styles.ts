@@ -1,16 +1,5 @@
 import type { CSSProperties } from 'react';
 
-export const BRAND_TITLE_STYLE = {
-  fontFamily: '"Space Grotesk", "Plus Jakarta Sans", system-ui, sans-serif',
-  letterSpacing: '0.02em',
-  fontWeight: 700,
-  backgroundImage: 'var(--dt-brand-gradient)',
-  backgroundClip: 'text',
-  WebkitBackgroundClip: 'text',
-  color: 'transparent',
-  WebkitTextFillColor: 'transparent',
-} as const satisfies CSSProperties;
-
 export const TAG_BADGE_STYLE = {
   flexShrink: 0,
   minWidth: 'max-content',

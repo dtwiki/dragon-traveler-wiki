@@ -1,4 +1,31 @@
 /* ==============================================
+   SHARED TEXT CONTRAST
+   Mantine's green, lime, yellow and orange stay under 4.5:1 even at shade 9 on
+   light backgrounds; these darker shades are used for light-mode text instead.
+   ============================================== */
+:root {
+  --dt-text-green: #1f6f30;
+  --dt-text-lime: #3f6212;
+  --dt-text-yellow: #854d0e;
+  --dt-text-orange: #9a3412;
+}
+
+/* Per-scheme selectors: light-dark() inside a :root custom property resolves
+   once at :root, so it cannot follow the color scheme here. */
+:root[data-mantine-color-scheme='light'] {
+  --mantine-color-dimmed: var(--mantine-color-gray-7);
+  --dt-rich-number: var(--mantine-color-blue-9);
+  --dt-rich-percent: var(--dt-text-orange);
+  --dt-rich-range: var(--dt-text-green);
+}
+
+:root[data-mantine-color-scheme='dark'] {
+  --dt-rich-number: var(--mantine-color-blue-text);
+  --dt-rich-percent: var(--mantine-color-yellow-text);
+  --dt-rich-range: var(--mantine-color-green-text);
+}
+
+/* ==============================================
    PALETTE: ARCANE (violet — default)
    Rich violet → deep grape → indigo
    ============================================== */
@@ -94,7 +121,7 @@
   --dt-wordmark-color-light: var(--mantine-color-blue-8);
   --dt-wordmark-shadow-dark: 0 1px 12px rgba(37, 99, 235, 0.42);
   --dt-wordmark-shadow-light: 0 1px 6px rgba(30, 64, 175, 0.18);
-  --dt-link-color-light: var(--mantine-color-blue-7);
+  --dt-link-color-light: var(--mantine-color-blue-8);
   --dt-link-color-dark: var(--mantine-color-blue-3);
   --dt-home-hero-panel-light: linear-gradient(
     180deg,
@@ -149,7 +176,7 @@
   --dt-wordmark-color-light: var(--mantine-color-orange-8);
   --dt-wordmark-shadow-dark: 0 1px 12px rgba(245, 158, 11, 0.44);
   --dt-wordmark-shadow-light: 0 1px 6px rgba(180, 83, 9, 0.2);
-  --dt-link-color-light: var(--mantine-color-orange-7);
+  --dt-link-color-light: var(--dt-text-orange);
   --dt-link-color-dark: var(--mantine-color-yellow-3);
   --dt-home-hero-panel-light: linear-gradient(
     180deg,
@@ -204,7 +231,7 @@
   --dt-wordmark-color-light: var(--mantine-color-green-8);
   --dt-wordmark-shadow-dark: 0 1px 12px rgba(5, 150, 105, 0.42);
   --dt-wordmark-shadow-light: 0 1px 6px rgba(6, 95, 70, 0.18);
-  --dt-link-color-light: var(--mantine-color-green-7);
+  --dt-link-color-light: var(--dt-text-green);
   --dt-link-color-dark: var(--mantine-color-teal-3);
   --dt-home-hero-panel-light: linear-gradient(
     180deg,
@@ -259,7 +286,7 @@
   --dt-wordmark-color-light: var(--mantine-color-red-8);
   --dt-wordmark-shadow-dark: 0 1px 12px rgba(225, 29, 72, 0.44);
   --dt-wordmark-shadow-light: 0 1px 6px rgba(159, 18, 57, 0.18);
-  --dt-link-color-light: var(--mantine-color-red-7);
+  --dt-link-color-light: var(--mantine-color-red-9);
   --dt-link-color-dark: var(--mantine-color-pink-3);
   --dt-home-hero-panel-light: linear-gradient(
     180deg,
@@ -314,7 +341,7 @@
   --dt-wordmark-color-light: var(--mantine-color-teal-8);
   --dt-wordmark-shadow-dark: 0 1px 12px rgba(20, 184, 166, 0.42);
   --dt-wordmark-shadow-light: 0 1px 6px rgba(15, 118, 110, 0.18);
-  --dt-link-color-light: var(--mantine-color-teal-7);
+  --dt-link-color-light: var(--mantine-color-teal-9);
   --dt-link-color-dark: var(--mantine-color-teal-3);
   --dt-home-hero-panel-light: linear-gradient(
     180deg,
@@ -369,7 +396,7 @@
   --dt-wordmark-color-light: var(--mantine-color-blue-7);
   --dt-wordmark-shadow-dark: 0 1px 12px rgba(56, 189, 248, 0.4);
   --dt-wordmark-shadow-light: 0 1px 6px rgba(3, 105, 161, 0.16);
-  --dt-link-color-light: var(--mantine-color-blue-6);
+  --dt-link-color-light: var(--mantine-color-blue-8);
   --dt-link-color-dark: var(--mantine-color-cyan-2);
   --dt-home-hero-panel-light: linear-gradient(
     180deg,

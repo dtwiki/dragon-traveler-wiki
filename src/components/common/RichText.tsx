@@ -264,7 +264,13 @@ export default function RichText({
 
         if (seg.type === 'percentRange') {
           return (
-            <Text key={i} component="span" size="sm" c="green" fw={600}>
+            <Text
+              key={i}
+              component="span"
+              size="sm"
+              c="var(--dt-rich-range)"
+              fw={600}
+            >
               {seg.content}
             </Text>
           );
@@ -272,7 +278,13 @@ export default function RichText({
 
         if (seg.type === 'percent') {
           return (
-            <Text key={i} component="span" size="sm" c="yellow" fw={600}>
+            <Text
+              key={i}
+              component="span"
+              size="sm"
+              c="var(--dt-rich-percent)"
+              fw={600}
+            >
               {seg.content}
             </Text>
           );
@@ -280,7 +292,13 @@ export default function RichText({
 
         if (seg.type === 'number') {
           return (
-            <Text key={i} component="span" size="sm" c="blue" fw={600}>
+            <Text
+              key={i}
+              component="span"
+              size="sm"
+              c="var(--dt-rich-number)"
+              fw={600}
+            >
               {seg.content}
             </Text>
           );

@@ -1,4 +1,10 @@
-import { createTheme, type MantineColorsTuple } from '@mantine/core';
+import {
+  createTheme,
+  defaultVariantColorsResolver,
+  parseThemeColor,
+  type MantineColorsTuple,
+  type VariantColorsResolver,
+} from '@mantine/core';
 import { DETAIL_TOOLTIP_STYLES } from './constants/styles';
 
 // Custom dark color for deeper dark mode
@@ -15,7 +21,38 @@ const dark: MantineColorsTuple = [
   '#0c0d0e', // 9 - deepest
 ];
 
+// Light-mode text for the `light` variant: the darkest shade that reaches 4.5:1
+// on that color's own tinted background (Mantine's default shade 6 does not).
+const LIGHT_VARIANT_TEXT: Record<string, string> = {
+  red: 'var(--mantine-color-red-9)',
+  pink: 'var(--mantine-color-pink-8)',
+  grape: 'var(--mantine-color-grape-8)',
+  violet: 'var(--mantine-color-violet-8)',
+  indigo: 'var(--mantine-color-indigo-8)',
+  blue: 'var(--mantine-color-blue-9)',
+  cyan: 'var(--mantine-color-cyan-9)',
+  teal: 'var(--mantine-color-teal-9)',
+  green: 'var(--dt-text-green)',
+  lime: 'var(--dt-text-lime)',
+  yellow: 'var(--dt-text-yellow)',
+  orange: 'var(--dt-text-orange)',
+};
+
+const variantColorResolver: VariantColorsResolver = (input) => {
+  const colors = defaultVariantColorsResolver(input);
+  if (input.variant !== 'light') return colors;
+  const { color } = parseThemeColor({
+    color: input.color || input.theme.primaryColor,
+    theme: input.theme,
+  });
+  const lightText = LIGHT_VARIANT_TEXT[color];
+  return lightText
+    ? { ...colors, color: `light-dark(${lightText}, ${colors.color})` }
+    : colors;
+};
+
 export const theme = createTheme({
+  variantColorResolver,
   primaryColor: 'violet',
   // Picks black or white text per filled color so light fills (yellow, lime,
   // gray) stay readable instead of always getting white text.
