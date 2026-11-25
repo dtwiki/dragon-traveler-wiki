@@ -58,12 +58,13 @@ export default function EntitySummaryCard({
           </Box>
         )}
         <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
-          <Group gap="sm" wrap="nowrap" align="flex-start">
+          {/* Badges wrap below the title before they can squeeze it out. */}
+          <Group gap="xs" wrap="wrap" align="flex-start">
             <Text
               fw={700}
               className={to ? 'dt-link-text' : undefined}
               lineClamp={2}
-              style={{ minWidth: 0 }}
+              style={{ minWidth: 0, flex: '1 1 8rem' }}
             >
               {title}
             </Text>
