@@ -26,7 +26,8 @@ export function matchesResourceFilters(
     (filters.categories.length === 0 ||
       filters.categories.includes(resource.category)) &&
     (filters.qualities.length === 0 ||
-      filters.qualities.includes(resource.quality))
+      (resource.quality !== undefined &&
+        filters.qualities.includes(resource.quality)))
   );
 }
 
