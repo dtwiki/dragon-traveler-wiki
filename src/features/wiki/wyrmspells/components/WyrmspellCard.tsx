@@ -1,11 +1,10 @@
 ﻿import ExpandableText from '@/components/ui/ExpandableText';
+import RegionBadges from '@/components/ui/RegionBadges';
 import { getWyrmspellIcon } from '@/assets';
 import RichText from '@/components/common/RichText';
 import { InteractiveSurface } from '@/components/ui/Surface';
 import { LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
 import FactionTag from '@/components/ui/FactionTag';
-import GlobalBadge from '@/components/ui/GlobalBadge';
-import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import QualityIcon from '@/components/ui/QualityIcon';
 import type {
   Wyrmspell,
@@ -61,10 +60,10 @@ export default function WyrmspellCard({
             {wyrmspell.name}
           </Text>
           {maxQuality && <QualityIcon quality={maxQuality.quality} />}
-          {wyrmspell.is_global === false && (
-            <GlobalBadge isGlobal={false} size="xs" />
-          )}
-          {wyrmspell.machine_translated && <MachineTranslatedBadge size="xs" />}
+          <RegionBadges
+            isGlobal={wyrmspell.is_global}
+            machineTranslated={wyrmspell.machine_translated}
+          />
         </Group>
         <Group gap={4} justify="center">
           <WyrmspellTypeTag type={displayType as WyrmspellType} />

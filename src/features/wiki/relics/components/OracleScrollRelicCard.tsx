@@ -1,9 +1,8 @@
+import RegionBadges from '@/components/ui/RegionBadges';
 import SafeImage from '@/components/ui/SafeImage';
 import { getRelicIcon } from '@/assets';
 import RichText from '@/components/common/RichText';
 import QualityIcon from '@/components/ui/QualityIcon';
-import GlobalBadge from '@/components/ui/GlobalBadge';
-import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import type { Relic } from '@/features/wiki/relics/types';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import { QUALITY_COLOR } from '@/constants/quality';
@@ -50,10 +49,10 @@ export default function OracleScrollRelicCard({
                 {relic.name}
               </Text>
               <QualityIcon quality={relic.quality} />
-              {relic.is_global === false && (
-                <GlobalBadge isGlobal={false} size="sm" />
-              )}
-              {relic.machine_translated && <MachineTranslatedBadge size="sm" />}
+              <RegionBadges
+                isGlobal={relic.is_global}
+                machineTranslated={relic.machine_translated}
+              />
             </Group>
           </Stack>
         </Group>

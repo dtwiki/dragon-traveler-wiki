@@ -1,6 +1,5 @@
 ﻿import SafeImage from '@/components/ui/SafeImage';
-import GlobalBadge from '@/components/ui/GlobalBadge';
-import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
+import RegionBadges from '@/components/ui/RegionBadges';
 import {
   Badge,
   Container,
@@ -183,12 +182,10 @@ export default function Resources() {
                           {resource.quality && (
                             <QualityIcon quality={resource.quality} />
                           )}
-                          {resource.is_global === false && (
-                            <GlobalBadge isGlobal={false} size="xs" />
-                          )}
-                          {resource.machine_translated && (
-                            <MachineTranslatedBadge size="xs" />
-                          )}
+                          <RegionBadges
+                            isGlobal={resource.is_global}
+                            machineTranslated={resource.machine_translated}
+                          />
                         </Group>
                       }
                       metadata={
@@ -270,12 +267,10 @@ export default function Resources() {
                               <Text fw={600} size="sm">
                                 {resource.name}
                               </Text>
-                              {resource.is_global === false && (
-                                <GlobalBadge isGlobal={false} size="xs" />
-                              )}
-                              {resource.machine_translated && (
-                                <MachineTranslatedBadge size="xs" />
-                              )}
+                              <RegionBadges
+                                isGlobal={resource.is_global}
+                                machineTranslated={resource.machine_translated}
+                              />
                             </Group>
                           </Table.Td>
                           <Table.Td>

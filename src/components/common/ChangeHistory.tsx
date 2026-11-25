@@ -437,7 +437,12 @@ export function ChangeRecordCard({
                   <Text size="xs" fw={600} ff="monospace" c="dimmed">
                     {fieldName}
                   </Text>
-                  <Badge size="xs" variant="dot" color={kindColor}>
+                  <Badge
+                    size="xs"
+                    variant="dot"
+                    color={kindColor}
+                    tt="capitalize"
+                  >
                     {summary.kind}
                   </Badge>
                 </Group>

@@ -1,4 +1,5 @@
 ﻿import ExpandableText from '@/components/ui/ExpandableText';
+import RegionBadges from '@/components/ui/RegionBadges';
 import SafeImage from '@/components/ui/SafeImage';
 import { getWyrmspellIcon, WYRMSPELL_TYPE_ICON_MAP } from '@/assets';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
@@ -29,8 +30,6 @@ import {
 } from '@/constants/ui';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
-import GlobalBadge from '@/components/ui/GlobalBadge';
-import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import WyrmspellTypeTag from '@/features/wiki/wyrmspells/components/WyrmspellTypeTag';
 import {
   compareWyrmspells,
@@ -281,16 +280,10 @@ export default function Wyrmspells() {
                                 <QualityIcon quality={maxQuality.quality} />
                               </Box>
                             )}
-                            {spell.is_global === false && (
-                              <Box style={{ flexShrink: 0 }}>
-                                <GlobalBadge isGlobal={false} size="xs" />
-                              </Box>
-                            )}
-                            {spell.machine_translated && (
-                              <Box style={{ flexShrink: 0 }}>
-                                <MachineTranslatedBadge size="xs" />
-                              </Box>
-                            )}
+                            <RegionBadges
+                              isGlobal={spell.is_global}
+                              machineTranslated={spell.machine_translated}
+                            />
                           </Group>
                           <Group gap="sm" wrap="wrap">
                             <WyrmspellTypeTag type={spell.type} />
@@ -379,12 +372,10 @@ export default function Wyrmspells() {
                             to={`/wyrmspells/${spell.slug}`}
                             accessory={
                               spell.is_global === false && (
-                                <>
-                                  <GlobalBadge isGlobal={false} size="xs" />
-                                  {spell.machine_translated && (
-                                    <MachineTranslatedBadge size="xs" />
-                                  )}
-                                </>
+                                <RegionBadges
+                                  isGlobal={false}
+                                  machineTranslated={spell.machine_translated}
+                                />
                               )
                             }
                           >

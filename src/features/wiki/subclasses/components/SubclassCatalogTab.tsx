@@ -1,3 +1,4 @@
+import RegionBadges from '@/components/ui/RegionBadges';
 import {
   Badge,
   Group,
@@ -15,8 +16,6 @@ import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntitySummaryCard from '@/components/common/EntitySummaryCard';
 import RichText from '@/components/common/RichText';
 import ClassTag from '@/components/ui/ClassTag';
-import GlobalBadge from '@/components/ui/GlobalBadge';
-import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import SafeImage from '@/components/ui/SafeImage';
 import SortableTh from '@/components/ui/SortableTh';
 import TierBadge from '@/components/ui/TierBadge';
@@ -133,10 +132,10 @@ export default function SubclassCatalogTab({
                   titleAccessory={
                     item.is_global === false && (
                       <Group gap={6} wrap="nowrap">
-                        <GlobalBadge isGlobal={false} size="xs" />
-                        {item.machine_translated && (
-                          <MachineTranslatedBadge size="xs" />
-                        )}
+                        <RegionBadges
+                          isGlobal={false}
+                          machineTranslated={item.machine_translated}
+                        />
                       </Group>
                     )
                   }
@@ -234,12 +233,10 @@ export default function SubclassCatalogTab({
                           <Text fw={600} size="sm">
                             {item.name}
                           </Text>
-                          {item.is_global === false && (
-                            <GlobalBadge isGlobal={false} size="xs" />
-                          )}
-                          {item.machine_translated && (
-                            <MachineTranslatedBadge size="xs" />
-                          )}
+                          <RegionBadges
+                            isGlobal={item.is_global}
+                            machineTranslated={item.machine_translated}
+                          />
                         </Group>
                       </Table.Td>
                       <Table.Td>

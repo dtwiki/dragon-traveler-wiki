@@ -1,4 +1,5 @@
 ﻿import ExpandableText from '@/components/ui/ExpandableText';
+import RegionBadges from '@/components/ui/RegionBadges';
 import SafeImage from '@/components/ui/SafeImage';
 import { getArtifactIcon } from '@/assets';
 import EntityFilter from '@/components/common/EntityFilter';
@@ -27,8 +28,6 @@ import {
   CARD_GRID_COLS,
 } from '@/constants/ui';
 import QualityIcon from '@/components/ui/QualityIcon';
-import GlobalBadge from '@/components/ui/GlobalBadge';
-import MachineTranslatedBadge from '@/components/ui/MachineTranslatedBadge';
 import {
   useArtifacts,
   useStatusEffects,
@@ -179,12 +178,10 @@ export default function Artifacts() {
                       titleAccessory={
                         <Group gap={6} wrap="nowrap">
                           <QualityIcon quality={artifact.quality} />
-                          {artifact.is_global === false && (
-                            <GlobalBadge isGlobal={false} size="xs" />
-                          )}
-                          {artifact.machine_translated && (
-                            <MachineTranslatedBadge size="xs" />
-                          )}
+                          <RegionBadges
+                            isGlobal={artifact.is_global}
+                            machineTranslated={artifact.machine_translated}
+                          />
                         </Group>
                       }
                       metadata={
@@ -283,12 +280,12 @@ export default function Artifacts() {
                             fontWeight={500}
                             accessory={
                               artifact.is_global === false && (
-                                <>
-                                  <GlobalBadge isGlobal={false} size="xs" />
-                                  {artifact.machine_translated && (
-                                    <MachineTranslatedBadge size="xs" />
-                                  )}
-                                </>
+                                <RegionBadges
+                                  isGlobal={false}
+                                  machineTranslated={
+                                    artifact.machine_translated
+                                  }
+                                />
                               )
                             }
                           >

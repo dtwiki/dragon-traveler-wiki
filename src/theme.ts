@@ -108,6 +108,13 @@ export const theme = createTheme({
 
   // Component defaults
   components: {
+    Badge: {
+      // Sentence case reads better than Mantine's all caps, especially for
+      // long labels such as set and scroll names.
+      defaultProps: {
+        tt: 'none',
+      },
+    },
     Button: {
       defaultProps: {
         radius: 'md',
