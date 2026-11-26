@@ -524,14 +524,7 @@ function SearchModalContent({
                         borderRadius: 'var(--mantine-radius-sm)',
                         width: '100%',
                       }}
-                      styles={{
-                        root: {
-                          '&:hover': {
-                            backgroundColor:
-                              'var(--mantine-color-default-hover)',
-                          },
-                        },
-                      }}
+                      className="dt-hover-row"
                     >
                       <IoTimeOutline
                         size={14}
