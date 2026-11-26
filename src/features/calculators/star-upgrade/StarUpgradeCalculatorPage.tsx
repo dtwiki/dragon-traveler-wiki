@@ -46,6 +46,13 @@ import StarUpgradeReferenceTable from '@/features/calculators/star-upgrade/compo
 import HeartTrialRateTable from '@/features/calculators/star-upgrade/components/HeartTrialRateTable';
 import { PAGE_WIDTH } from '@/constants/ui';
 
+const HEART_TRIAL_QUALITY_OPTIONS = [
+  'SSR EX',
+  'SSR+',
+  'SSR',
+  'SR',
+] as const satisfies readonly HeartTrialQuality[];
+
 export default function StarUpgradeCalculatorPage() {
   const { accent } = useGradientAccent();
   const isMobile = useIsMobile();
@@ -281,48 +288,17 @@ export default function StarUpgradeCalculatorPage() {
               <SegmentedControl
                 value={quality}
                 onChange={(value) => setQuality(value as HeartTrialQuality)}
-                data={[
-                  {
-                    value: 'SSR EX',
-                    label: (
-                      <SafeImage
-                        src={QUALITY_ICON_MAP['SSR EX']}
-                        h={18}
-                        fit="contain"
-                      />
-                    ),
-                  },
-                  {
-                    value: 'SSR+',
-                    label: (
-                      <SafeImage
-                        src={QUALITY_ICON_MAP['SSR+']}
-                        h={18}
-                        fit="contain"
-                      />
-                    ),
-                  },
-                  {
-                    value: 'SSR',
-                    label: (
-                      <SafeImage
-                        src={QUALITY_ICON_MAP.SSR}
-                        h={18}
-                        fit="contain"
-                      />
-                    ),
-                  },
-                  {
-                    value: 'SR',
-                    label: (
-                      <SafeImage
-                        src={QUALITY_ICON_MAP.SR}
-                        h={18}
-                        fit="contain"
-                      />
-                    ),
-                  },
-                ]}
+                data={HEART_TRIAL_QUALITY_OPTIONS.map((option) => ({
+                  value: option,
+                  label: (
+                    <SafeImage
+                      src={QUALITY_ICON_MAP[option]}
+                      alt={option}
+                      h={18}
+                      fit="contain"
+                    />
+                  ),
+                }))}
                 fullWidth
               />
 

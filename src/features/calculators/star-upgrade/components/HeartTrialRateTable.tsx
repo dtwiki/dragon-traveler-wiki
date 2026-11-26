@@ -29,6 +29,7 @@ export default function HeartTrialRateTable() {
             <Table.Td>
               <SafeImage
                 src={QUALITY_ICON_MAP[rate.quality]}
+                alt={rate.quality}
                 h={20}
                 fit="contain"
               />
