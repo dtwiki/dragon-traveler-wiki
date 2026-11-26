@@ -17,6 +17,14 @@ export interface ModelAnimation {
   role?: ModelAnimationRole;
 }
 
+/** The game's Unity material properties, as exported alongside the model. */
+export interface GameMaterial {
+  name: string;
+  keywords: string[];
+  floats: Record<string, number>;
+  colors: Record<string, number[]>;
+}
+
 export interface ModelMetadata {
   version: 1 | 2 | 3;
   model: string;
@@ -30,6 +38,7 @@ export interface ModelMetadata {
     shadowSoftness: number;
     outline: number;
   };
+  gameMaterials: GameMaterial[];
 }
 
 const DEFAULT_OUTLINE_WIDTH = 0.001;
@@ -90,6 +99,29 @@ function parseAnimation(value: unknown, index: number): ModelAnimation {
   };
 }
 
+function parseGameMaterial(value: unknown, index: number): GameMaterial {
+  if (
+    !isRecord(value) ||
+    typeof value.name !== 'string' ||
+    !Array.isArray(value.keywords) ||
+    !value.keywords.every((keyword) => typeof keyword === 'string') ||
+    !isRecord(value.floats) ||
+    !Object.values(value.floats).every(isFiniteNumber) ||
+    !isRecord(value.colors) ||
+    !Object.values(value.colors).every(
+      (color) => Array.isArray(color) && color.every(isFiniteNumber),
+    )
+  ) {
+    throw new Error(`Game material ${index + 1} is invalid`);
+  }
+  return {
+    name: value.name,
+    keywords: value.keywords,
+    floats: value.floats as GameMaterial['floats'],
+    colors: value.colors as GameMaterial['colors'],
+  };
+}
+
 export function parseModelMetadata(raw: unknown): ModelMetadata {
   if (!isRecord(raw) || !isMetadataVersion(raw.version)) {
     throw new Error('Unsupported character model metadata version');
@@ -144,6 +176,10 @@ export function parseModelMetadata(raw: unknown): ModelMetadata {
     shadowSoftness: raw.material.shadowSoftness,
     outline: raw.material.outline ?? DEFAULT_OUTLINE_WIDTH,
   };
+  if (raw.gameMaterials !== undefined && !Array.isArray(raw.gameMaterials)) {
+    throw new Error('Character model game materials are invalid');
+  }
+  const gameMaterials = (raw.gameMaterials ?? []).map(parseGameMaterial);
 
   return {
     version: raw.version,
@@ -152,5 +188,6 @@ export function parseModelMetadata(raw: unknown): ModelMetadata {
     textures,
     animations,
     material,
+    gameMaterials,
   };
 }
