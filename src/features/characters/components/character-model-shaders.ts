@@ -72,7 +72,12 @@ export const outlineVertexShader = /* glsl */ `
     #include <begin_vertex>
     #include <skinning_vertex>
     transformed += objectNormal * outlineWidth;
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(transformed, 1.0);
+    vec4 mvPosition = modelViewMatrix * vec4(transformed, 1.0);
+    // Inner layers of double-sided cloth face inward but keep outward normals,
+    // so their shell lands in front of the outer layer. Pushing the outline back
+    // by more than its width keeps it behind any surface it is extruded through.
+    mvPosition.z -= 2.0 * outlineWidth * length(modelViewMatrix[0].xyz);
+    gl_Position = projectionMatrix * mvPosition;
   }
 `;
 
