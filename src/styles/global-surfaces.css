@@ -150,3 +150,22 @@ body {
   color: var(--dt-wordmark-color-light);
   -webkit-text-fill-color: var(--dt-wordmark-color-light);
 }
+
+/* Hidden until focused, so keyboard users can jump past the header and sidebar. */
+.dt-skip-link {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 1000;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--mantine-radius-sm);
+  background: var(--mantine-color-body);
+  color: var(--mantine-color-text);
+  box-shadow: var(--mantine-shadow-md);
+  font-weight: 600;
+  transform: translateY(-200%);
+}
+
+.dt-skip-link:focus {
+  transform: none;
+}

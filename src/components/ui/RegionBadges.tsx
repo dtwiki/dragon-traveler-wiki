@@ -23,7 +23,12 @@ export default function RegionBadges({
   return (
     <>
       {isGlobal === false && <GlobalBadge isGlobal={false} size={size} />}
-      {machineTranslated && <MachineTranslatedBadge size={size} />}
+      {machineTranslated && (
+        <MachineTranslatedBadge
+          size={size}
+          interactive={context === 'detail'}
+        />
+      )}
     </>
   );
 }

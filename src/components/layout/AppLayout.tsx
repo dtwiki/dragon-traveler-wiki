@@ -26,7 +26,10 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useContext } from 'react';
-import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
+import {
+  TbLayoutSidebarLeftCollapse,
+  TbLayoutSidebarLeftExpand,
+} from 'react-icons/tb';
 import { Link, useLocation } from 'react-router';
 import BannerBackground from './BannerBackground';
 import Footer from './Footer';
@@ -76,6 +79,9 @@ export default function AppLayout() {
       transitionTimingFunction={TRANSITION.EASE}
       style={{ minHeight: '100dvh' }}
     >
+      <a href="#main-content" className="dt-skip-link">
+        Skip to content
+      </a>
       <AppShell.Header style={glassStyles}>
         <Group
           h="100%"
@@ -94,6 +100,7 @@ export default function AppLayout() {
               onClick={toggleMobile}
               hiddenFrom="sm"
               size="sm"
+              aria-label={mobileOpened ? 'Close navigation' : 'Open navigation'}
             />
             {!useHeaderNav && (
               <Tooltip
@@ -106,13 +113,15 @@ export default function AppLayout() {
                   variant="subtle"
                   size="lg"
                   onClick={sidebar.toggle}
-                  aria-label="Toggle sidebar"
+                  aria-label={
+                    sidebar.isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'
+                  }
                   visibleFrom="sm"
                 >
                   {sidebar.isCollapsed ? (
-                    <IoChevronForward size={IMAGE_SIZE.ICON_LG} />
+                    <TbLayoutSidebarLeftExpand size={IMAGE_SIZE.ICON_LG} />
                   ) : (
-                    <IoChevronBack size={IMAGE_SIZE.ICON_LG} />
+                    <TbLayoutSidebarLeftCollapse size={IMAGE_SIZE.ICON_LG} />
                   )}
                 </ActionIcon>
               </Tooltip>
@@ -182,7 +191,10 @@ export default function AppLayout() {
       )}
 
       <AppShell.Main
+        id="main-content"
+        tabIndex={-1}
         style={{
+          outline: 'none',
           position: 'relative',
           overflow: 'clip',
           display: 'flex',
