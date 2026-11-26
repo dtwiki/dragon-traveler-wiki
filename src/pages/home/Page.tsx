@@ -75,7 +75,7 @@ export default function Home() {
             </HomeSectionCard>
           </ScrollReveal>
 
-          <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg">
+          <SimpleGrid cols={{ base: 1, md: 2 }} spacing="xl">
             <ScrollReveal>
               <HomeSectionCard
                 title="Active Codes"
