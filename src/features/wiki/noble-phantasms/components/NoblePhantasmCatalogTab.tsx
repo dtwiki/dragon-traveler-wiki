@@ -93,6 +93,9 @@ export default function NoblePhantasmCatalogTab({
         filterOpen={filterOpen}
         onFilterToggle={toggleFilter}
         onResetFilters={resetFilters}
+        search={filters.search}
+        onSearchChange={(search) => setFilters({ ...filters, search })}
+        searchPlaceholder="Search by name or character..."
         filterContent={
           <NoblePhantasmFilter filters={filters} onChange={setFilters} />
         }

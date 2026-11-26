@@ -116,6 +116,11 @@ export default function StatusEffects() {
           }
         >
           <FilteredListShell
+            search={filters.search}
+            onSearchChange={(value) =>
+              setFilters({ ...filters, search: value })
+            }
+            searchPlaceholder="Search by name..."
             count={filtered.length}
             noun="status effect"
             viewMode={viewMode}
@@ -135,11 +140,6 @@ export default function StatusEffects() {
                   })
                 }
                 onClear={resetFilters}
-                search={filters.search}
-                onSearchChange={(value) =>
-                  setFilters({ ...filters, search: value })
-                }
-                searchPlaceholder="Search by name..."
               />
             }
             page={page}

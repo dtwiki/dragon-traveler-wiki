@@ -1,6 +1,6 @@
-import { Button } from '@mantine/core';
+import { ActionIcon, Button, Tooltip } from '@mantine/core';
 import { IoBugOutline } from 'react-icons/io5';
-import { useGradientAccent } from '@/hooks';
+import { useGradientAccent, useIsMobile } from '@/hooks';
 import { buildIssueUrl } from '@/utils/github-issues';
 
 export default function DataCorrectionButton({
@@ -9,6 +9,7 @@ export default function DataCorrectionButton({
   entityType: string;
 }) {
   const { accent } = useGradientAccent();
+  const isMobile = useIsMobile();
   const report = () => {
     const pageUrl = window.location.href;
     const issueUrl = buildIssueUrl({
@@ -18,11 +19,24 @@ export default function DataCorrectionButton({
     });
     window.open(issueUrl, '_blank', 'noopener,noreferrer');
   };
-  return (
+  // Same size as the neighbouring Export button, but subtle: a secondary action.
+  return isMobile ? (
+    <Tooltip label="Report issue">
+      <ActionIcon
+        variant="subtle"
+        color={accent.primary}
+        size="lg"
+        onClick={report}
+        aria-label="Report issue"
+      >
+        <IoBugOutline size={16} />
+      </ActionIcon>
+    </Tooltip>
+  ) : (
     <Button
-      variant="light"
+      variant="subtle"
       color={accent.primary}
-      size="sm"
+      size="xs"
       leftSection={<IoBugOutline size={16} />}
       onClick={report}
     >

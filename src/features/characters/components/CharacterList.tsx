@@ -99,6 +99,9 @@ export default function CharacterList({
       pageSize={pageSize}
       pageSizeOptions={pageSizeOptions}
       onPageSizeChange={setPageSize}
+      search={filters.search}
+      onSearchChange={(search) => setFilters({ ...filters, search })}
+      searchPlaceholder="Search characters..."
       filterContent={
         <CharacterFilter
           filters={filters}

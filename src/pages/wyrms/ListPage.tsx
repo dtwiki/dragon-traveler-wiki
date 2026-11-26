@@ -154,6 +154,11 @@ export default function WyrmsListPage() {
           }
         >
           <FilteredListShell
+            search={filters.search}
+            onSearchChange={(value) =>
+              setFilters({ ...filters, search: value })
+            }
+            searchPlaceholder="Search by name..."
             count={filtered.length}
             noun="wyrm"
             viewMode={viewMode}
@@ -174,11 +179,6 @@ export default function WyrmsListPage() {
                   setFilters({ ...filters, [key]: values })
                 }
                 onClear={resetFilters}
-                search={filters.search}
-                onSearchChange={(value) =>
-                  setFilters({ ...filters, search: value })
-                }
-                searchPlaceholder="Search by name..."
               />
             }
             page={page}

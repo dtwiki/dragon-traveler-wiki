@@ -106,6 +106,11 @@ export default function GearTab({
       }
     >
       <FilteredListShell
+        search={filters.search}
+        onSearchChange={(value) =>
+          onFiltersChange({ ...filters, search: value })
+        }
+        searchPlaceholder="Search by gear or set..."
         count={filtered.length}
         noun="gear item"
         viewMode={viewMode}
@@ -132,11 +137,6 @@ export default function GearTab({
               onFiltersChange({ ...filters, [key]: values })
             }
             onClear={onResetFilters}
-            search={filters.search}
-            onSearchChange={(value) =>
-              onFiltersChange({ ...filters, search: value })
-            }
-            searchPlaceholder="Search by gear or set..."
           />
         }
         gridContent={

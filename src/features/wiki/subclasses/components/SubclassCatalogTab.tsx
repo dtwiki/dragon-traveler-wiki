@@ -81,9 +81,6 @@ export default function SubclassCatalogTab({
         setFilters({ ...filters, tiers: values });
       }}
       onClear={resetFilters}
-      search={filters.search}
-      onSearchChange={(search) => setFilters({ ...filters, search })}
-      searchPlaceholder="Search by name..."
     />
   );
 
@@ -105,6 +102,9 @@ export default function SubclassCatalogTab({
       }
     >
       <FilteredListShell
+        search={filters.search}
+        onSearchChange={(search) => setFilters({ ...filters, search })}
+        searchPlaceholder="Search by name..."
         count={filtered.length}
         noun="subclass"
         viewMode={viewMode}

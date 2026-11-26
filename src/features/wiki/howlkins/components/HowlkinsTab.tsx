@@ -108,6 +108,11 @@ export default function HowlkinsTab({
       }
     >
       <FilteredListShell
+        search={filters.search}
+        onSearchChange={(value) =>
+          onFiltersChange({ ...filters, search: value })
+        }
+        searchPlaceholder="Search by name..."
         count={filtered.length}
         noun="howlkin"
         viewMode={viewMode}
@@ -131,11 +136,6 @@ export default function HowlkinsTab({
               onFiltersChange({ ...filters, [key]: values })
             }
             onClear={onResetFilters}
-            search={filters.search}
-            onSearchChange={(value) =>
-              onFiltersChange({ ...filters, search: value })
-            }
-            searchPlaceholder="Search by name..."
             beforeGroups={
               <FilterSection label="Golden Alliance">
                 <FilterChipGroup
