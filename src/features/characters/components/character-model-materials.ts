@@ -18,7 +18,7 @@ const DEFAULT_OUTLINE_COLOR: Rgb = [0.055, 0.04, 0.075];
  * Converts `_ContourThicknessOs.x` to model units. Calibrated by eye against the
  * game's character renders; the game shader's own scaling is not known.
  */
-export const OUTLINE_THICKNESS_SCALE = 0.02;
+export const OUTLINE_THICKNESS_SCALE = 0.01;
 
 function rgb(color: number[] | undefined): Rgb | null {
   return color && color.length >= 3 ? [color[0], color[1], color[2]] : null;
