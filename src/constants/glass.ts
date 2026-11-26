@@ -63,23 +63,3 @@ export function getGlassStyles(isDark: boolean, subtle = false) {
     border: isDark ? GLASS_BORDER.dark : GLASS_BORDER.light,
   };
 }
-
-/**
- * Glass style for hero navigation cards layered over banner media.
- * Opacity scales with UI Surfaces while preserving the original default alpha.
- */
-export function getHeroNavGlassStyles(isDark: boolean) {
-  // Original defaults:
-  //   dark: 0.07 / surface default 0.9 ~= 0.078
-  //   light: 0.72 / surface default 0.9 = 0.8
-  const alpha = isDark
-    ? 'calc(var(--dt-surface-opacity, 0.9) * 0.078)'
-    : 'calc(var(--dt-surface-opacity, 0.9) * 0.8)';
-
-  return {
-    backdropFilter: `blur(${GLASS.BLUR_SUBTLE})`,
-    WebkitBackdropFilter: `blur(${GLASS.BLUR_SUBTLE})`,
-    backgroundColor: `rgba(255 255 255 / ${alpha})`,
-    border: isDark ? GLASS_BORDER.dark : GLASS_BORDER.light,
-  };
-}

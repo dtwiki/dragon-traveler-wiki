@@ -41,17 +41,3 @@ export function getHomeHeroMetaTextStyle(isDark: boolean): CSSProperties {
     textShadow: isDark ? '0 1px 4px rgba(0, 0, 0, 0.85)' : 'none',
   };
 }
-
-export function getHomeHeroPlayNowStyle(isDark: boolean): CSSProperties {
-  return {
-    borderColor: isDark
-      ? 'rgba(255, 255, 255, 0.4)'
-      : 'var(--mantine-color-gray-4)',
-    color: isDark ? 'rgba(255, 255, 255, 0.95)' : 'var(--mantine-color-dark-8)',
-    backdropFilter: 'blur(4px)',
-    backgroundColor: isDark
-      ? 'rgba(255, 255, 255, 0.1)'
-      : 'rgba(255, 255, 255, 0.78)',
-    whiteSpace: 'nowrap',
-  };
-}

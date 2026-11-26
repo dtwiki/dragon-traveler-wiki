@@ -1,6 +1,9 @@
+/* Pull the section's background out to the edges of AppShell.Main, then pad its
+   content back in so it lines up with the page content below. */
 .root {
   margin-block-start: calc(
     var(--app-shell-padding, var(--mantine-spacing-md)) * -1
   );
   margin-inline: calc(var(--app-shell-padding, var(--mantine-spacing-md)) * -1);
+  padding-inline: var(--app-shell-padding, var(--mantine-spacing-md));
 }

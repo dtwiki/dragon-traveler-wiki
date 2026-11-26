@@ -1,16 +1,7 @@
-import {
-  Badge,
-  Container,
-  Group,
-  SimpleGrid,
-  Stack,
-  Text,
-  ThemeIcon,
-} from '@mantine/core';
+import { Container, SimpleGrid, Stack, Text } from '@mantine/core';
 import {
   IoCalendar,
   IoGameController,
-  IoGlobe,
   IoList,
   IoPricetag,
   IoStatsChart,
@@ -20,7 +11,6 @@ import {
   CharacterOwnershipContext,
   TierListReferenceContext,
 } from '@/contexts';
-import { useGradientAccent } from '@/hooks';
 import { useContext } from 'react';
 import ActiveCodesSection from '@/features/home/components/ActiveCodesSection';
 import ActiveEventsSection from '@/features/home/components/ActiveEventsSection';
@@ -45,7 +35,6 @@ const LANGUAGES = [
 ];
 
 export default function Home() {
-  const { accent } = useGradientAccent();
   const { showCharacterTiers } = useContext(CharacterOwnershipContext);
   const { selectedTierList } = useContext(TierListReferenceContext);
 
@@ -55,6 +44,11 @@ export default function Home() {
 
       <Container size={PAGE_WIDTH.WIDE} py={{ base: 'lg', sm: 'xl' }}>
         <Stack gap="xl">
+          {/* The categories are the main way into the wiki, so they come first. */}
+          <HomeSectionCard title="Browse the Wiki" icon={IoStatsChart}>
+            <DataStatsBar />
+          </HomeSectionCard>
+
           {/* Featured characters come from the reference tier list, so the whole
               section is omitted when there's no default and no chosen list. */}
           {showCharacterTiers && selectedTierList && (
@@ -81,7 +75,7 @@ export default function Home() {
             </HomeSectionCard>
           </ScrollReveal>
 
-          <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg">
+          <SimpleGrid cols={{ base: 1, md: 2 }} spacing="xl">
             <ScrollReveal>
               <HomeSectionCard
                 title="Active Codes"
@@ -106,12 +100,6 @@ export default function Home() {
           </SimpleGrid>
 
           <ScrollReveal>
-            <HomeSectionCard title="Database" icon={IoStatsChart}>
-              <DataStatsBar />
-            </HomeSectionCard>
-          </ScrollReveal>
-
-          <ScrollReveal>
             <HomeSectionCard title="About the Game" icon={IoGameController}>
               <Stack gap="md">
                 <Text size="sm" fs="italic" c="dimmed">
@@ -124,42 +112,12 @@ export default function Home() {
                   combat, strategic Dragon Soul mechanics, and a colorful cast
                   of characters.
                 </Text>
-                <Group gap="xs" wrap="wrap">
-                  {GENRES.map((genre) => (
-                    <Badge
-                      key={genre}
-                      variant="light"
-                      color={accent.primary}
-                      size="sm"
-                    >
-                      {genre}
-                    </Badge>
-                  ))}
-                  <Badge variant="light" color={accent.secondary} size="sm">
-                    Free to Play
-                  </Badge>
-                </Group>
-                <Group gap="xs" wrap="wrap" align="center">
-                  <ThemeIcon
-                    variant="light"
-                    color={accent.secondary}
-                    size="md"
-                    radius="md"
-                    style={{ flexShrink: 0 }}
-                  >
-                    <IoGlobe size={16} />
-                  </ThemeIcon>
-                  {LANGUAGES.map((lang) => (
-                    <Badge
-                      key={lang}
-                      variant="light"
-                      color={accent.secondary}
-                      size="sm"
-                    >
-                      {lang}
-                    </Badge>
-                  ))}
-                </Group>
+                <Text size="sm" c="dimmed">
+                  {GENRES.join(' · ')} · Free to play
+                  <br />
+                  Available in {LANGUAGES.slice(0, -1).join(', ')} and{' '}
+                  {LANGUAGES.at(-1)}.
+                </Text>
               </Stack>
             </HomeSectionCard>
           </ScrollReveal>
