@@ -77,37 +77,32 @@ function CharacterNoteButton({
               radius="md"
               variant="filled"
               color={hasNote ? accent.primary : accent.secondary}
-              styles={{
-                root: {
-                  background: hasNote
+              className="dt-note-btn"
+              style={
+                {
+                  '--dt-note-bg': hasNote
                     ? `linear-gradient(135deg, var(--mantine-primary-color-6) 0%, var(--mantine-color-${accent.secondary}-6) 100%)`
                     : 'var(--mantine-color-body)',
-                  color: hasNote
+                  '--dt-note-hover-bg': hasNote
+                    ? `linear-gradient(135deg, var(--mantine-primary-color-7) 0%, var(--mantine-color-${accent.secondary}-7) 100%)`
+                    : 'var(--mantine-color-default-hover)',
+                  '--dt-note-color': hasNote
                     ? 'var(--mantine-color-white)'
                     : 'var(--mantine-primary-color-filled)',
-                  border: hasNote
+                  '--dt-note-border': hasNote
                     ? '1px solid var(--mantine-primary-color-4)'
                     : '1px solid var(--mantine-color-default-border)',
-                  boxShadow: hasNote
+                  '--dt-note-shadow': hasNote
                     ? 'var(--mantine-shadow-sm)'
                     : 'var(--mantine-shadow-xs)',
-                  backdropFilter: `blur(${GLASS.BLUR_SUBTLE})`,
-                  WebkitBackdropFilter: `blur(${GLASS.BLUR_SUBTLE})`,
+                  '--dt-note-hover-shadow': hasNote
+                    ? 'var(--mantine-shadow-md)'
+                    : 'var(--mantine-shadow-sm)',
+                  '--dt-note-blur': `blur(${GLASS.BLUR_SUBTLE})`,
                   opacity: opened ? 1 : 0.97,
-                  transform: opened ? 'scale(1.04)' : 'scale(1)',
-                  transition:
-                    'background 140ms ease, color 140ms ease, border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease, opacity 140ms ease',
-                  '&:hover': {
-                    background: hasNote
-                      ? `linear-gradient(135deg, var(--mantine-primary-color-7) 0%, var(--mantine-color-${accent.secondary}-7) 100%)`
-                      : 'var(--mantine-color-default-hover)',
-                    boxShadow: hasNote
-                      ? 'var(--mantine-shadow-md)'
-                      : 'var(--mantine-shadow-sm)',
-                    transform: 'scale(1.06)',
-                  },
-                },
-              }}
+                  transform: opened ? 'scale(1.04)' : undefined,
+                } as CSSProperties
+              }
               onMouseDown={(e) => {
                 e.preventDefault();
                 e.stopPropagation();

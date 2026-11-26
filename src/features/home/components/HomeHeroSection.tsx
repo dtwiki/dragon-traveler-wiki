@@ -9,7 +9,7 @@ import {
   getHomeHeroWordmarkStyle,
 } from '@/constants/home-styles';
 import { getHeroNavGlassStyles } from '@/constants/glass';
-import { IMAGE_SIZE, TRANSITION, PAGE_WIDTH } from '@/constants/ui';
+import { IMAGE_SIZE, PAGE_WIDTH } from '@/constants/ui';
 import { BannerContext } from '@/contexts';
 import { useDarkMode, useGradientAccent, useIsMobile } from '@/hooks';
 import {
@@ -36,17 +36,6 @@ import {
 import { Link } from 'react-router';
 import { InteractiveSurface } from '@/components/ui/Surface';
 import { useContext, useMemo, type ComponentType } from 'react';
-
-const HOME_CTA_BUTTON_STYLES = {
-  root: {
-    transition: `transform 180ms ${TRANSITION.EASE}, box-shadow 220ms ${TRANSITION.EASE}, filter 180ms ${TRANSITION.EASE}`,
-    '&:hover': {
-      transform: 'translateY(-2px)',
-      boxShadow: '0 10px 26px rgba(0, 0, 0, 0.26)',
-      filter: 'saturate(1.04)',
-    },
-  },
-};
 
 const HERO_NAV_ITEMS: Array<{
   label: string;
@@ -205,7 +194,7 @@ export default function HomeHeroSection() {
                   size="md"
                   fullWidth={isMobile}
                   color={accent.primary}
-                  styles={HOME_CTA_BUTTON_STYLES}
+                  className="dt-hero-cta"
                   leftSection={<IoPeople size={IMAGE_SIZE.ICON_LG} />}
                 >
                   Browse Characters
@@ -217,7 +206,7 @@ export default function HomeHeroSection() {
                   fullWidth={isMobile}
                   variant="light"
                   color={accent.primary}
-                  styles={HOME_CTA_BUTTON_STYLES}
+                  className="dt-hero-cta"
                   leftSection={<IoTrophy size={IMAGE_SIZE.ICON_LG} />}
                 >
                   View Tier List
@@ -231,7 +220,7 @@ export default function HomeHeroSection() {
                   fullWidth={isMobile}
                   variant="outline"
                   color="gray"
-                  styles={HOME_CTA_BUTTON_STYLES}
+                  className="dt-hero-cta"
                   leftSection={<IoGameController size={IMAGE_SIZE.ICON_LG} />}
                   rightSection={<IoOpenOutline size={14} />}
                   style={homeHeroPlayNowStyle}
@@ -252,7 +241,7 @@ export default function HomeHeroSection() {
                   fullWidth={isMobile}
                   variant="light"
                   color={accent.primary}
-                  styles={HOME_CTA_BUTTON_STYLES}
+                  className="dt-hero-cta"
                   leftSection={<IoSearch size={16} />}
                   style={{ minHeight: isMobile ? 44 : undefined }}
                 >
