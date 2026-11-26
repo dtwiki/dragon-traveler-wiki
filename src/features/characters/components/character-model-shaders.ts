@@ -24,33 +24,30 @@ export const fragmentShader = /* glsl */ `
   uniform sampler2D baseMap;
   uniform sampler2D shadeMap;
   uniform sampler2D emissionMap;
-  uniform sampler2D mraMap;
   uniform vec3 lightDirection;
-  uniform float emissionStrength;
+  uniform vec3 emissionColor;
   uniform float indirectLight;
   uniform float shadowThreshold;
   uniform float shadowSoftness;
+  uniform float alphaCutoff;
   varying vec2 vUv;
   varying vec3 vWorldNormal;
   varying vec3 vWorldPosition;
   void main() {
     vec4 base = texture2D(baseMap, vUv);
+    if (base.a < alphaCutoff) discard;
     vec3 authoredShade = texture2D(shadeMap, vUv).rgb;
     vec3 emission = texture2D(emissionMap, vUv).rgb;
-    vec3 mra = texture2D(mraMap, vUv).rgb;
     vec3 normal = normalize(vWorldNormal);
     vec3 light = normalize(lightDirection);
     vec3 viewDirection = normalize(cameraPosition - vWorldPosition);
-    vec3 halfDirection = normalize(light + viewDirection);
     float halfLambert = dot(normal, light) * 0.5 + 0.5;
-    float toonLight = smoothstep(shadowThreshold - shadowSoftness, shadowThreshold + shadowSoftness, halfLambert);
+    // The game's near-zero softness would alias, so widen it to at least one pixel.
+    float edge = max(shadowSoftness, fwidth(halfLambert));
+    float toonLight = smoothstep(shadowThreshold - edge, shadowThreshold + edge, halfLambert);
     vec3 color = mix(mix(authoredShade, base.rgb, indirectLight), base.rgb, toonLight);
-    float metallic = mra.r;
-    float roughness = clamp(mra.g, 0.04, 1.0);
-    float specular = pow(max(dot(normal, halfDirection), 0.0), mix(96.0, 8.0, roughness));
-    color += mix(vec3(0.04), base.rgb, metallic) * specular * toonLight * 0.22;
     color += base.rgb * pow(1.0 - max(dot(normal, viewDirection), 0.0), 3.0) * toonLight * 0.08;
-    color += emission * emissionStrength;
+    color += emission * emissionColor;
     gl_FragColor = vec4(color, base.a);
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
@@ -61,8 +58,15 @@ export const outlineVertexShader = /* glsl */ `
   #include <common>
   #include <skinning_pars_vertex>
   uniform float outlineWidth;
+  #ifdef USE_OUTLINE_NORMAL
+    attribute vec3 _outline_normal;
+  #endif
   void main() {
-    #include <beginnormal_vertex>
+    #ifdef USE_OUTLINE_NORMAL
+      vec3 objectNormal = _outline_normal;
+    #else
+      #include <beginnormal_vertex>
+    #endif
     #include <skinbase_vertex>
     #include <skinnormal_vertex>
     #include <begin_vertex>
@@ -73,8 +77,9 @@ export const outlineVertexShader = /* glsl */ `
 `;
 
 export const outlineFragmentShader = /* glsl */ `
+  uniform vec3 outlineColor;
   void main() {
-    gl_FragColor = vec4(0.055, 0.04, 0.075, 1.0);
+    gl_FragColor = vec4(outlineColor, 1.0);
   }
 `;
 

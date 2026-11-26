@@ -47,6 +47,7 @@ import {
   type AnimationSeekRequest,
 } from '../hooks/use-model-animation';
 import type { ModelMetadata } from './character-model-metadata';
+import { toonMaterialSettings } from './character-model-materials';
 import {
   fragmentShader,
   neutralTexture,
@@ -75,6 +76,10 @@ interface CharacterModelSceneProps {
   onProgress: (progress: AnimationProgress) => void;
 }
 
+/** The glTF loader lower-cases the exporter's custom `_OUTLINE_NORMAL` attribute. */
+const OUTLINE_NORMAL_ATTRIBUTE = '_outline_normal';
+const SHADER_TEXTURE_SEMANTICS = ['base', 'shade', 'emission'];
+
 function CharacterModel({
   metadata,
   modelUrl,
@@ -98,13 +103,7 @@ function CharacterModel({
 }) {
   const loadedTextures = useLoader(TextureLoader, textureUrls);
   const { animations, scene } = useGLTF(modelUrl);
-  const fallbackTextures = useMemo(
-    () => ({
-      emission: neutralTexture(0, 0, 0),
-      mra: neutralTexture(0, 180, 0),
-    }),
-    [],
-  );
+  const fallbackEmission = useMemo(() => neutralTexture(0, 0, 0), []);
   const textureMap = useMemo(() => {
     const result: Record<string, Texture> = {};
     textureSemantics.forEach((semantic, index) => {
@@ -114,61 +113,96 @@ function CharacterModel({
   }, [loadedTextures, textureSemantics]);
   const baseMap = textureMap.base;
   const shadeMap = textureMap.shade ?? baseMap;
-  const emissionMap = textureMap.emission ?? fallbackTextures.emission;
-  const mraMap = textureMap.mra ?? fallbackTextures.mra;
-  const { material, outlineMaterial, model } = useMemo(() => {
-    for (const texture of [baseMap, shadeMap, emissionMap, mraMap]) {
-      texture.flipY = false;
-    }
+  const emissionMap = textureMap.emission ?? fallbackEmission;
+  const { materials, model } = useMemo(() => {
     for (const texture of [baseMap, shadeMap, emissionMap]) {
+      texture.flipY = false;
       texture.colorSpace = SRGBColorSpace;
     }
-    const toonMaterial = new ShaderMaterial({
-      name: 'Dragon Traveler actor toon material',
-      uniforms: {
-        baseMap: { value: baseMap },
-        shadeMap: { value: shadeMap },
-        emissionMap: { value: emissionMap },
-        mraMap: { value: mraMap },
-        lightDirection: { value: new Vector3(0.7, 1, 0.8).normalize() },
-        emissionStrength: { value: metadata.material.emissionStrength },
-        indirectLight: { value: metadata.material.indirectLight },
-        shadowThreshold: { value: metadata.material.shadowThreshold },
-        shadowSoftness: { value: metadata.material.shadowSoftness },
-      },
-      vertexShader,
-      fragmentShader,
-    });
-    const silhouetteMaterial = new ShaderMaterial({
-      name: 'Dragon Traveler subtle silhouette outline',
-      uniforms: {
-        outlineWidth: { value: metadata.material.outline },
-      },
-      vertexShader: outlineVertexShader,
-      fragmentShader: outlineFragmentShader,
-      side: BackSide,
-    });
+    const gameMaterials = new Map(
+      metadata.gameMaterials.map((material) => [material.name, material]),
+    );
+    const materialPairs = new Map<
+      string,
+      { toon: ShaderMaterial; outline: ShaderMaterial }
+    >();
+    const materialPairFor = (name: string) => {
+      const existing = materialPairs.get(name);
+      if (existing) return existing;
+      const settings = toonMaterialSettings(
+        metadata.material,
+        gameMaterials.get(name),
+        hasOutlineNormals,
+      );
+      const pair = {
+        toon: new ShaderMaterial({
+          name: 'Dragon Traveler actor toon material',
+          uniforms: {
+            baseMap: { value: baseMap },
+            shadeMap: { value: shadeMap },
+            emissionMap: { value: emissionMap },
+            lightDirection: { value: new Vector3(0.7, 1, 0.8).normalize() },
+            emissionColor: { value: new Vector3(...settings.emissionColor) },
+            indirectLight: { value: metadata.material.indirectLight },
+            shadowThreshold: { value: settings.shadowThreshold },
+            shadowSoftness: { value: settings.shadowSoftness },
+            alphaCutoff: { value: settings.alphaCutoff },
+          },
+          vertexShader,
+          fragmentShader,
+        }),
+        outline: new ShaderMaterial({
+          name: 'Dragon Traveler subtle silhouette outline',
+          uniforms: {
+            outlineWidth: { value: settings.outlineWidth },
+            outlineColor: { value: new Vector3(...settings.outlineColor) },
+          },
+          defines: settings.outlineUsesSmoothedNormals
+            ? { USE_OUTLINE_NORMAL: '' }
+            : {},
+          vertexShader: outlineVertexShader,
+          fragmentShader: outlineFragmentShader,
+          side: BackSide,
+        }),
+      };
+      materialPairs.set(name, pair);
+      return pair;
+    };
+
     const clone = cloneSkeleton(scene);
     const meshes: Mesh[] = [];
     clone.traverse((child: Object3D) => {
-      if (child instanceof Mesh) {
-        child.material = toonMaterial;
-        meshes.push(child);
-      }
+      if (child instanceof Mesh) meshes.push(child);
     });
+    const hasOutlineNormals = meshes.every((mesh) =>
+      mesh.geometry.hasAttribute(OUTLINE_NORMAL_ATTRIBUTE),
+    );
     for (const mesh of meshes) {
+      const pair = materialPairFor(
+        (mesh.material as { name?: string }).name ?? '',
+      );
+      mesh.material = pair.toon;
       const outline = mesh.clone();
       outline.name = `${mesh.name || 'mesh'} outline`;
-      outline.material = silhouetteMaterial;
+      outline.material = pair.outline;
       outline.renderOrder = -1;
       mesh.parent?.add(outline);
     }
     return {
-      material: toonMaterial,
-      outlineMaterial: silhouetteMaterial,
+      materials: [...materialPairs.values()].flatMap((pair) => [
+        pair.toon,
+        pair.outline,
+      ]),
       model: clone,
     };
-  }, [baseMap, emissionMap, metadata.material, mraMap, scene, shadeMap]);
+  }, [
+    baseMap,
+    emissionMap,
+    metadata.gameMaterials,
+    metadata.material,
+    scene,
+    shadeMap,
+  ]);
   useModelAnimation({
     clips: animations,
     root: model,
@@ -182,18 +216,11 @@ function CharacterModel({
   });
   useEffect(
     () => () => {
-      material.dispose();
-      outlineMaterial.dispose();
+      for (const material of materials) material.dispose();
     },
-    [material, outlineMaterial],
+    [materials],
   );
-  useEffect(
-    () => () => {
-      fallbackTextures.emission.dispose();
-      fallbackTextures.mra.dispose();
-    },
-    [fallbackTextures],
-  );
+  useEffect(() => () => fallbackEmission.dispose(), [fallbackEmission]);
 
   return (
     <Center top>
@@ -332,7 +359,10 @@ function CharacterModelScene({
   const modelPath = `${rootPath}/${metadata.model}`;
   const modelUrl = getVersionedAssetUrl(modelPath, entries[modelPath]);
   const textureSemantics = useMemo(
-    () => Object.keys(metadata.textures),
+    () =>
+      SHADER_TEXTURE_SEMANTICS.filter(
+        (semantic) => metadata.textures[semantic],
+      ),
     [metadata.textures],
   );
   const textureUrls = useMemo(
@@ -402,6 +432,7 @@ function CharacterModelScene({
         fallback={() => null}
       >
         <Canvas
+          flat
           camera={{ position: [0, 0.9, 2.2], fov: 32 }}
           dpr={dpr}
           style={{ opacity: modelReady ? 1 : 0 }}
