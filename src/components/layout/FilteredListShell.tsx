@@ -16,6 +16,9 @@ interface FilteredListShellProps {
   filterOpen: boolean;
   onFilterToggle: () => void;
   onResetFilters?: () => void;
+  search?: string;
+  onSearchChange?: (value: string) => void;
+  searchPlaceholder?: string;
   filterContent: ReactNode;
   emptyMessage?: string;
   gridContent: ReactNode;
@@ -37,6 +40,9 @@ export default function FilteredListShell({
   filterOpen,
   onFilterToggle,
   onResetFilters,
+  search,
+  onSearchChange,
+  searchPlaceholder,
   filterContent,
   emptyMessage,
   gridContent,
@@ -61,6 +67,9 @@ export default function FilteredListShell({
           filterCount={filterCount}
           filterOpen={filterOpen}
           onFilterToggle={onFilterToggle}
+          search={search}
+          onSearchChange={onSearchChange}
+          searchPlaceholder={searchPlaceholder}
         >
           {filterContent}
         </FilterToolbar>

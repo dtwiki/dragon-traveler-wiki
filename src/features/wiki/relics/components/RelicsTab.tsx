@@ -110,6 +110,11 @@ export default function RelicsTab({
       }
     >
       <FilteredListShell
+        search={filters.search}
+        onSearchChange={(value) =>
+          onFiltersChange({ ...filters, search: value })
+        }
+        searchPlaceholder="Search by name, oracle scroll, or lore..."
         count={filtered.length}
         noun="relic"
         viewMode={viewMode}
@@ -136,11 +141,6 @@ export default function RelicsTab({
               onFiltersChange({ ...filters, [key]: values })
             }
             onClear={onResetFilters}
-            search={filters.search}
-            onSearchChange={(value) =>
-              onFiltersChange({ ...filters, search: value })
-            }
-            searchPlaceholder="Search by name, oracle scroll, or lore..."
             beforeGroups={
               <FilterSection label="Oracle Scroll">
                 <FilterChipGroup

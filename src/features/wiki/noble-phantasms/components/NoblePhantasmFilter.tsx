@@ -34,9 +34,6 @@ export default function NoblePhantasmFilter({
         }
       }}
       onClear={() => onChange(EMPTY_NOBLE_PHANTASM_FILTERS)}
-      search={filters.search}
-      onSearchChange={(search) => onChange({ ...filters, search })}
-      searchPlaceholder="Search by name or character..."
       beforeGroups={
         <FilterSection label="Character">
           <FilterChipGroup

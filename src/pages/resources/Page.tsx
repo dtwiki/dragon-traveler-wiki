@@ -125,6 +125,11 @@ export default function Resources() {
           }
         >
           <FilteredListShell
+            search={filters.search}
+            onSearchChange={(value) =>
+              setFilters({ ...filters, search: value })
+            }
+            searchPlaceholder="Search by name..."
             count={filtered.length}
             noun="resource"
             viewMode={viewMode}
@@ -151,11 +156,6 @@ export default function Resources() {
                   setFilters({ ...filters, qualities: values as Quality[] });
                 }}
                 onClear={resetFilters}
-                search={filters.search}
-                onSearchChange={(value) =>
-                  setFilters({ ...filters, search: value })
-                }
-                searchPlaceholder="Search by name..."
               />
             }
             emptyMessage="No resources match the current filters."

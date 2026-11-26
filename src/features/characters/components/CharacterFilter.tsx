@@ -112,9 +112,6 @@ export default function CharacterFilter({
         filters.upcomingOnly ||
         hasOwnedFilter
       }
-      search={filters.search}
-      onSearchChange={(value) => onChange({ ...filters, search: value })}
-      searchPlaceholder="Search by name..."
       beforeGroups={
         <>
           <FilterSection label="Server">

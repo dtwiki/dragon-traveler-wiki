@@ -133,6 +133,11 @@ export default function Artifacts() {
           }
         >
           <FilteredListShell
+            search={filters.search}
+            onSearchChange={(value) =>
+              setFilters({ ...filters, search: value })
+            }
+            searchPlaceholder="Search artifacts..."
             count={filtered.length}
             noun="artifact"
             viewMode={viewMode}
@@ -152,11 +157,6 @@ export default function Artifacts() {
                   setFilters({ ...filters, [key]: values })
                 }
                 onClear={resetFilters}
-                search={filters.search}
-                onSearchChange={(value) =>
-                  setFilters({ ...filters, search: value })
-                }
-                searchPlaceholder="Search artifacts..."
               />
             }
             page={page}
